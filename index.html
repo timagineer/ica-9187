@@ -95,7 +95,7 @@
             transition: opacity .2s, transform .2s;
         }
 
-        dialog[open] {
+        dialog[open].animate-in {
             opacity: 1;
             transform: none;
         }
@@ -170,7 +170,6 @@
             cursor: pointer;
         }
 
-        /* Smooth collapse */
         .collapse {
             display: grid;
             grid-template-rows: 1fr;
@@ -554,8 +553,27 @@
                 vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: 'CH-2024-00842', team: '' };
                 vm.e = {};
             };
-            vm.open = function () { vm.reset(); document.getElementById('dlg').showModal(); };
-            vm.close = function () { var d = document.getElementById('dlg'); d.classList.add('closing'); $t(function () { d.close(); d.classList.remove('closing'); }, 200); };
+            vm.open = function () {
+                vm.reset();
+                var d = document.getElementById('dlg');
+                d.classList.remove('animate-in');
+                d.showModal();
+                // Trigger reflow then add class for entry animation
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        d.classList.add('animate-in');
+                    });
+                });
+            };
+            vm.close = function () {
+                var d = document.getElementById('dlg');
+                d.classList.remove('animate-in');
+                d.classList.add('closing');
+                $t(function () {
+                    d.close();
+                    d.classList.remove('closing');
+                }, 200);
+            };
             vm.save = function () {
                 vm.e = {};
                 if (!vm.f.firstName) vm.e.firstName = 'Required';
@@ -584,6 +602,12 @@
                 else $t(function () { var el = document.querySelector('.err-msg'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
             };
             vm.reset();
+
+            // Handle Esc key - prevent default and use custom close
+            document.getElementById('dlg').addEventListener('cancel', function (e) {
+                e.preventDefault();
+                vm.close();
+            });
         }]);
     </script>
 </body>
