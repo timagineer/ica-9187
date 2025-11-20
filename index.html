@@ -1,19 +1,589 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="chartApp">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICANotes+ Functional Prototype: DO-9187</title>
-    <link rel="preconnect" href="https://ajax.googleapis.com">
+    <title>Create New Chart</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
-    <!-- <link rel="stylesheet" href="icanotes-design-system-0.7.4css"> -->
+    <style>
+        :root {
+            --primary: hsl(222, 47%, 11%);
+            --primary-hover: hsl(217, 33%, 17%);
+            --bg: hsl(210, 40%, 98%);
+            --border: hsl(213, 27%, 84%);
+            --error: hsl(0, 84%, 60%);
+            --text: hsl(222, 47%, 11%);
+            --muted: hsl(215, 19%, 35%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 14px;
+            background: var(--bg);
+            padding: 20px;
+        }
+
+        .demo {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .demo h2 {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .toggles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .toggle input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .launch {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 24px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .launch:hover {
+            background: var(--primary-hover);
+        }
+
+        dialog {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1);
+            margin: auto !important;
+            padding: 0;
+            max-width: 50rem;
+            width: calc(100% - 2rem);
+            opacity: 0;
+            transform: translateY(5px) scale(.99);
+            transition: opacity .2s, transform .2s;
+        }
+
+        dialog[open] {
+            opacity: 1;
+            transform: none;
+        }
+
+        dialog.closing {
+            opacity: 0;
+            transform: translateY(5px) scale(.99);
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, .2);
+        }
+
+        .m-head {
+            background: var(--primary);
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .m-head h3 {
+            font-size: 16px;
+        }
+
+        .m-head button {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .m-body {
+            padding: 24px;
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+        }
+
+        .sec {
+            margin-bottom: 28px;
+        }
+
+        .sec:last-child {
+            margin-bottom: 0;
+        }
+
+        .sec-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .chk {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .chk input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Smooth collapse */
+        .collapse {
+            display: grid;
+            grid-template-rows: 1fr;
+            transition: grid-template-rows .3s, opacity .3s, margin .3s;
+        }
+
+        .collapse.hide {
+            grid-template-rows: 0fr;
+            opacity: 0;
+            margin-bottom: 0 !important;
+        }
+
+        .collapse>.inner {
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .row {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .row:last-child {
+            margin-bottom: 0;
+        }
+
+        .c2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .c3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .grp {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .grp label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .grp .req {
+            color: var(--error);
+        }
+
+        .ctrl {
+            height: 40px;
+            padding: 0 12px;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .ctrl:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, .1);
+        }
+
+        .ctrl.err {
+            border-color: var(--error);
+        }
+
+        select.ctrl {
+            appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23475569' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            cursor: pointer;
+        }
+
+        .err-msg {
+            color: var(--error);
+            font-size: 12px;
+        }
+
+        .m-foot {
+            padding: 16px 24px;
+            background: var(--bg);
+            border-top: 1px solid #e2e8f0;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-sec {
+            background: #fff;
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        .btn-pri {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-pri:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width:640px) {
+
+            .c2,
+            .c3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
-<body>
-    <main>
-        <em>Hello</em> world!
-    </main>
+<body ng-controller="ChartCtrl as vm">
+    <div class="demo">
+        <h2>Required Fields Simulation</h2>
+        <div class="toggles">
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.ssn">SSN</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.race">Race</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.ethnicity">Ethnicity</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.marital">Marital Status</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.disability">Disability</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.family">Family Size</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.employment">Employment Status</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.income">Income Range</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.email">Email</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.phone">Phone</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.address">Address</label>
+            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.emergency">Emergency Contact</label>
+        </div>
+        <button class="launch" ng-click="vm.open()">Create New Chart</button>
+    </div>
+
+    <dialog id="dlg">
+        <div class="m-head">
+            <h3>Create New Chart</h3><button ng-click="vm.close()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg></button>
+        </div>
+        <div class="m-body">
+            <div class="sec">
+                <div class="sec-head"><span>Client Details</span><label class="chk"><input type="checkbox" ng-model="vm.f.quick">Quick chart</label></div>
+                <div class="row c3">
+                    <div class="grp"><label>Legal First Name<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.firstName" ng-class="{err:vm.e.firstName}">
+                        <div class="err-msg" ng-if="vm.e.firstName">{{vm.e.firstName}}</div>
+                    </div>
+                    <div class="grp"><label>Legal Last Name<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.lastName" ng-class="{err:vm.e.lastName}">
+                        <div class="err-msg" ng-if="vm.e.lastName">{{vm.e.lastName}}</div>
+                    </div>
+                    <div class="grp"><label>Name<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.name" ng-class="{err:vm.e.name}">
+                        <div class="err-msg" ng-if="vm.e.name">{{vm.e.name}}</div>
+                    </div>
+                </div>
+                <div class="row c3">
+                    <div class="grp"><label>Date of Birth<span class="req">*</span></label><input type="date" class="ctrl" ng-model="vm.f.dob" ng-class="{err:vm.e.dob}">
+                        <div class="err-msg" ng-if="vm.e.dob">{{vm.e.dob}}</div>
+                    </div>
+                    <div class="grp"><label>Legal Sex<span class="req">*</span></label><select class="ctrl" ng-model="vm.f.sex" ng-class="{err:vm.e.sex}">
+                            <option value="">Select...</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                        <div class="err-msg" ng-if="vm.e.sex">{{vm.e.sex}}</div>
+                    </div>
+                    <div class="grp"><label>Gender<span class="req">*</span></label><select class="ctrl" ng-model="vm.f.gender" ng-class="{err:vm.e.gender}">
+                            <option value="">Select...</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Non-binary</option>
+                            <option>Other</option>
+                        </select>
+                        <div class="err-msg" ng-if="vm.e.gender">{{vm.e.gender}}</div>
+                    </div>
+                </div>
+                <div class="collapse" ng-class="{'hide':vm.f.quick}">
+                    <div class="inner">
+                        <div class="row c2">
+                            <div class="grp"><label>SSN<span class="req" ng-if="vm.cfg.ssn">*</span></label><input class="ctrl" ng-model="vm.f.ssn" ng-class="{err:vm.e.ssn}" placeholder="XXX-XX-XXXX">
+                                <div class="err-msg" ng-if="vm.e.ssn">{{vm.e.ssn}}</div>
+                            </div>
+                            <div class="grp"><label>Race<span class="req" ng-if="vm.cfg.race">*</span></label><select class="ctrl" ng-model="vm.f.race" ng-class="{err:vm.e.race}">
+                                    <option value="">Select...</option>
+                                    <option>American Indian</option>
+                                    <option>Asian</option>
+                                    <option>Black</option>
+                                    <option>Pacific Islander</option>
+                                    <option>White</option>
+                                    <option>Other</option>
+                                </select>
+                                <div class="err-msg" ng-if="vm.e.race">{{vm.e.race}}</div>
+                            </div>
+                        </div>
+                        <div class="row c2">
+                            <div class="grp"><label>Ethnicity<span class="req" ng-if="vm.cfg.ethnicity">*</span></label><select class="ctrl" ng-model="vm.f.ethnicity" ng-class="{err:vm.e.ethnicity}">
+                                    <option value="">Select...</option>
+                                    <option>Hispanic or Latino</option>
+                                    <option>Not Hispanic or Latino</option>
+                                </select>
+                                <div class="err-msg" ng-if="vm.e.ethnicity">{{vm.e.ethnicity}}</div>
+                            </div>
+                            <div class="grp"><label>Marital Status<span class="req" ng-if="vm.cfg.marital">*</span></label><select class="ctrl" ng-model="vm.f.marital" ng-class="{err:vm.e.marital}">
+                                    <option value="">Select...</option>
+                                    <option>Single</option>
+                                    <option>Married</option>
+                                    <option>Divorced</option>
+                                    <option>Widowed</option>
+                                </select>
+                                <div class="err-msg" ng-if="vm.e.marital">{{vm.e.marital}}</div>
+                            </div>
+                        </div>
+                        <div class="row c2">
+                            <div class="grp"><label>Disability<span class="req" ng-if="vm.cfg.disability">*</span></label><select class="ctrl" ng-model="vm.f.disability" ng-class="{err:vm.e.disability}">
+                                    <option value="">Select...</option>
+                                    <option>None</option>
+                                    <option>Physical</option>
+                                    <option>Cognitive</option>
+                                    <option>Sensory</option>
+                                    <option>Multiple</option>
+                                </select>
+                                <div class="err-msg" ng-if="vm.e.disability">{{vm.e.disability}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse sec" ng-class="{'hide':vm.f.quick}">
+                <div class="inner">
+                    <div class="sec-head"><span>Contact Information</span><label class="chk"><input type="checkbox" ng-model="vm.f.homeless">Client is homeless</label></div>
+                    <div class="row c2">
+                        <div class="grp"><label>Email<span class="req" ng-if="vm.cfg.email&&!vm.f.homeless">*</span></label><input type="email" class="ctrl" ng-model="vm.f.email" ng-class="{err:vm.e.email}">
+                            <div class="err-msg" ng-if="vm.e.email">{{vm.e.email}}</div>
+                        </div>
+                        <div class="grp"><label>Phone<span class="req" ng-if="vm.cfg.phone&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.phone" ng-class="{err:vm.e.phone}" placeholder="(XXX) XXX-XXXX">
+                            <div class="err-msg" ng-if="vm.e.phone">{{vm.e.phone}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="grp"><label>Street Address<span class="req" ng-if="vm.cfg.address">*</span></label><input class="ctrl" ng-model="vm.f.address" ng-class="{err:vm.e.address}">
+                            <div class="err-msg" ng-if="vm.e.address">{{vm.e.address}}</div>
+                        </div>
+                    </div>
+                    <div class="row c3">
+                        <div class="grp"><label>City<span class="req" ng-if="vm.cfg.address">*</span></label><input class="ctrl" ng-model="vm.f.city" ng-class="{err:vm.e.city}">
+                            <div class="err-msg" ng-if="vm.e.city">{{vm.e.city}}</div>
+                        </div>
+                        <div class="grp"><label>State<span class="req" ng-if="vm.cfg.address">*</span></label><select class="ctrl" ng-model="vm.f.state" ng-class="{err:vm.e.state}">
+                                <option value="">Select...</option>
+                                <option>AL</option>
+                                <option>CA</option>
+                                <option>FL</option>
+                                <option>NY</option>
+                                <option>TX</option>
+                            </select>
+                            <div class="err-msg" ng-if="vm.e.state">{{vm.e.state}}</div>
+                        </div>
+                        <div class="grp"><label>Zip<span class="req" ng-if="vm.cfg.address">*</span></label><input class="ctrl" ng-model="vm.f.zip" ng-class="{err:vm.e.zip}" placeholder="XXXXX" maxlength="5">
+                            <div class="err-msg" ng-if="vm.e.zip">{{vm.e.zip}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse sec" ng-class="{'hide':vm.f.quick}">
+                <div class="inner">
+                    <div class="sec-head"><span>Emergency Contact</span></div>
+                    <div class="row c2">
+                        <div class="grp"><label>First Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.emFirst" ng-class="{err:vm.e.emFirst}">
+                            <div class="err-msg" ng-if="vm.e.emFirst">{{vm.e.emFirst}}</div>
+                        </div>
+                        <div class="grp"><label>Last Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.emLast" ng-class="{err:vm.e.emLast}">
+                            <div class="err-msg" ng-if="vm.e.emLast">{{vm.e.emLast}}</div>
+                        </div>
+                    </div>
+                    <div class="row c3">
+                        <div class="grp"><label>Type<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select class="ctrl" ng-model="vm.f.emType" ng-class="{err:vm.e.emType}">
+                                <option value="">Select...</option>
+                                <option>Emergency</option>
+                                <option>Secondary</option>
+                                <option>Other</option>
+                            </select>
+                            <div class="err-msg" ng-if="vm.e.emType">{{vm.e.emType}}</div>
+                        </div>
+                        <div class="grp"><label>Relationship<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select class="ctrl" ng-model="vm.f.emRel" ng-class="{err:vm.e.emRel}">
+                                <option value="">Select...</option>
+                                <option>Spouse</option>
+                                <option>Parent</option>
+                                <option>Sibling</option>
+                                <option>Friend</option>
+                                <option>Other</option>
+                            </select>
+                            <div class="err-msg" ng-if="vm.e.emRel">{{vm.e.emRel}}</div>
+                        </div>
+                        <div class="grp"><label>Phone<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.emPhone" ng-class="{err:vm.e.emPhone}" placeholder="(XXX) XXX-XXXX">
+                            <div class="err-msg" ng-if="vm.e.emPhone">{{vm.e.emPhone}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse sec" ng-class="{'hide':vm.f.quick}">
+                <div class="inner">
+                    <div class="sec-head"><span>Financial/Household</span></div>
+                    <div class="row c3">
+                        <div class="grp"><label>Family Size<span class="req" ng-if="vm.cfg.family">*</span></label><input type="number" class="ctrl" ng-model="vm.f.familySize" ng-class="{err:vm.e.familySize}" min="1">
+                            <div class="err-msg" ng-if="vm.e.familySize">{{vm.e.familySize}}</div>
+                        </div>
+                        <div class="grp"><label>Employment<span class="req" ng-if="vm.cfg.employment">*</span></label><select class="ctrl" ng-model="vm.f.employment" ng-class="{err:vm.e.employment}">
+                                <option value="">Select...</option>
+                                <option>Full-Time</option>
+                                <option>Part-Time</option>
+                                <option>Unemployed</option>
+                                <option>Retired</option>
+                                <option>Student</option>
+                            </select>
+                            <div class="err-msg" ng-if="vm.e.employment">{{vm.e.employment}}</div>
+                        </div>
+                        <div class="grp"><label>Income Range<span class="req" ng-if="vm.cfg.income">*</span></label><select class="ctrl" ng-model="vm.f.income" ng-class="{err:vm.e.income}">
+                                <option value="">Select...</option>
+                                <option>$0-$25k</option>
+                                <option>$25k-$50k</option>
+                                <option>$50k-$75k</option>
+                                <option>$75k-$100k</option>
+                                <option>$100k+</option>
+                            </select>
+                            <div class="err-msg" ng-if="vm.e.income">{{vm.e.income}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sec">
+                <div class="sec-head"><span>Chart Details</span></div>
+                <div class="row c2">
+                    <div class="grp"><label>Principal Clinician<span class="req">*</span></label><select class="ctrl" ng-model="vm.f.clinician">
+                            <option>Dr. Sarah Johnson</option>
+                            <option>Dr. Michael Smith</option>
+                            <option>Dr. Emily Williams</option>
+                        </select></div>
+                    <div class="grp"><label>Chart ID<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.chartId" placeholder="Auto-generated"></div>
+                </div>
+                <div class="collapse" ng-class="{'hide':vm.f.quick}">
+                    <div class="inner">
+                        <div class="row">
+                            <div class="grp"><label>Clinical Team</label><select class="ctrl" ng-model="vm.f.team">
+                                    <option value="">Select...</option>
+                                    <option>Team Alpha</option>
+                                    <option>Team Beta</option>
+                                    <option>Team Gamma</option>
+                                </select></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-foot"><button class="btn btn-sec" ng-click="vm.close()">Cancel</button><button class="btn btn-pri" ng-click="vm.save()">Create Chart</button></div>
+    </dialog>
+
+    <script>
+        angular.module('chartApp', []).controller('ChartCtrl', ['$timeout', function ($t) {
+            var vm = this;
+            vm.cfg = { ssn: true, race: true, ethnicity: false, marital: false, disability: false, family: false, employment: true, income: false, email: true, phone: true, address: false, emergency: true };
+            vm.f = {}; vm.e = {};
+            vm.reset = function () {
+                vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: 'CH-2024-00842', team: '' };
+                vm.e = {};
+            };
+            vm.open = function () { vm.reset(); document.getElementById('dlg').showModal(); };
+            vm.close = function () { var d = document.getElementById('dlg'); d.classList.add('closing'); $t(function () { d.close(); d.classList.remove('closing'); }, 200); };
+            vm.save = function () {
+                vm.e = {};
+                if (!vm.f.firstName) vm.e.firstName = 'Required';
+                if (!vm.f.lastName) vm.e.lastName = 'Required';
+                if (!vm.f.name) vm.e.name = 'Required';
+                if (!vm.f.dob) vm.e.dob = 'Required';
+                if (!vm.f.sex) vm.e.sex = 'Required';
+                if (!vm.f.gender) vm.e.gender = 'Required';
+                if (!vm.f.quick) {
+                    if (vm.cfg.ssn && !vm.f.ssn) vm.e.ssn = 'Required';
+                    if (vm.cfg.race && !vm.f.race) vm.e.race = 'Required';
+                    if (vm.cfg.ethnicity && !vm.f.ethnicity) vm.e.ethnicity = 'Required';
+                    if (vm.cfg.marital && !vm.f.marital) vm.e.marital = 'Required';
+                    if (vm.cfg.disability && !vm.f.disability) vm.e.disability = 'Required';
+                    if (vm.cfg.address) { if (!vm.f.address) vm.e.address = 'Required'; if (!vm.f.city) vm.e.city = 'Required'; if (!vm.f.state) vm.e.state = 'Required'; if (!vm.f.zip) vm.e.zip = 'Required'; }
+                    if (!vm.f.homeless) {
+                        if (vm.cfg.email && !vm.f.email) vm.e.email = 'Required';
+                        if (vm.cfg.phone && !vm.f.phone) vm.e.phone = 'Required';
+                        if (vm.cfg.emergency) { if (!vm.f.emFirst) vm.e.emFirst = 'Required'; if (!vm.f.emLast) vm.e.emLast = 'Required'; if (!vm.f.emPhone) vm.e.emPhone = 'Required'; if (!vm.f.emType) vm.e.emType = 'Required'; if (!vm.f.emRel) vm.e.emRel = 'Required'; }
+                    }
+                    if (vm.cfg.family && !vm.f.familySize) vm.e.familySize = 'Required';
+                    if (vm.cfg.employment && !vm.f.employment) vm.e.employment = 'Required';
+                    if (vm.cfg.income && !vm.f.income) vm.e.income = 'Required';
+                }
+                if (!Object.keys(vm.e).length) { alert('Chart created successfully!'); vm.close(); }
+                else $t(function () { var el = document.querySelector('.err-msg'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+            };
+            vm.reset();
+        }]);
+    </script>
 </body>
 
 </html>
