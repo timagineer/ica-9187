@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Chart</title>
+    <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
         :root {
-            --primary: hsl(222, 47%, 11%);
-            --primary-hover: hsl(217, 33%, 17%);
-            --bg: hsl(210, 40%, 98%);
-            --border: hsl(213, 27%, 84%);
+            --primary: hsl(222, 47%, 31%);
+            --primary-hover: hsl(222, 47%, 25%);
+            --bg: hsl(222, 40%, 98%);
+            --border: hsl(222, 27%, 84%);
             --error: hsl(0, 84%, 60%);
             --text: hsl(222, 47%, 11%);
-            --muted: hsl(215, 19%, 35%);
+            --muted: hsl(222, 19%, 35%);
+            accent-color: var(--primary);
         }
 
         * {
@@ -546,7 +548,7 @@
     <script>
         angular.module('chartApp', []).controller('ChartCtrl', ['$timeout', function ($t) {
             var vm = this;
-            vm.cfg = { ssn: true, race: true, ethnicity: false, marital: false, disability: false, family: false, employment: true, income: false, email: true, phone: true, address: false, emergency: true };
+            vm.cfg = { ssn: true, race: true, ethnicity: false, marital: false, disability: false, family: false, employment: true, income: false, email: true, phone: true, address: true, emergency: true };
             vm.f = {}; vm.e = {};
             vm.reset = function () {
                 vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: 'CH-2024-00842', team: '' };
