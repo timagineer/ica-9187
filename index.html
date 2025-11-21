@@ -197,6 +197,17 @@
             cursor: pointer
         }
 
+        input[type="date"]::placeholder {
+            text-transform: uppercase;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-text,
+        input[type="date"]::-webkit-datetime-edit-month-field,
+        input[type="date"]::-webkit-datetime-edit-day-field,
+        input[type="date"]::-webkit-datetime-edit-year-field {
+            text-transform: uppercase;
+        }
+
         .collapse {
             display: grid;
             grid-template-rows: 1fr;
