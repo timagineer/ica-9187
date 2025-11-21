@@ -101,7 +101,7 @@
             width: calc(100% - 2rem);
             opacity: 0;
             transform: translateY(5px) scale(.99);
-            transition: opacity .2s, transform .2s
+            transition: opacity .2s cubic-bezier(0.61, 1, 0.88, 1), transform .2s cubic-bezier(0.61, 1, 0.88, 1)
         }
 
         dialog[open].animate-in {
@@ -115,7 +115,20 @@
         }
 
         dialog::backdrop {
-            background: rgba(0, 0, 0, .2)
+            background: rgba(0, 0, 0, .2);
+            transition: opacity .2s cubic-bezier(0.61, 1, 0.88, 1);
+        }
+
+        dialog:not(.animate-in)::backdrop {
+            opacity: 0;
+        }
+
+        dialog.animate-in::backdrop {
+            opacity: 1;
+        }
+
+        dialog.closing::backdrop {
+            opacity: 0;
         }
 
         .m-head {
@@ -182,7 +195,7 @@
         .collapse {
             display: grid;
             grid-template-rows: 1fr;
-            transition: grid-template-rows .3s, opacity .3s, margin .3s
+            transition: grid-template-rows 420ms cubic-bezier(0.61, 1, 0.88, 1), opacity 360ms, margin 420ms cubic-bezier(0.61, 1, 0.88, 1)
         }
 
         .collapse.hide {
