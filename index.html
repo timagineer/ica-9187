@@ -232,6 +232,10 @@
             min-height: 0;
         }
 
+        .collapse.no-transition {
+            transition: none !important;
+        }
+
         .row {
             display: grid;
             gap: 16px;
@@ -581,7 +585,89 @@
         <div class="m-foot"><button class="btn btn-sec" ng-click="vm.close()">Cancel</button><button class="btn btn-pri" ng-click="vm.save()">Create Chart</button></div>
     </dialog>
     <script>
-        angular.module('chartApp', []).controller('ChartCtrl', ['$timeout', function ($t) { var vm = this; vm.cfg = { ssn: true, race: true, ethnicity: false, marital: false, disability: false, family: false, employment: true, income: false, email: true, phone: true, address: true, emergency: true }; vm.f = {}; vm.e = {}; vm.reset = function () { vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: 'CH-2024-00842', team: '' }; vm.e = {} }; vm.open = function () { vm.reset(); var d = document.getElementById('dlg'); d.classList.remove('animate-in'); d.showModal(); requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.add('animate-in') }) }) }; vm.close = function () { var d = document.getElementById('dlg'); d.classList.remove('animate-in'); d.classList.add('closing'); $t(function () { d.close(); d.classList.remove('closing') }, 200) }; vm.save = function () { vm.e = {}; if (!vm.f.firstName) vm.e.firstName = 'Required'; if (!vm.f.lastName) vm.e.lastName = 'Required'; if (!vm.f.name) vm.e.name = 'Required'; if (!vm.f.dob) vm.e.dob = 'Required'; if (!vm.f.sex) vm.e.sex = 'Required'; if (!vm.f.gender) vm.e.gender = 'Required'; if (!vm.f.quick) { if (vm.cfg.ssn && !vm.f.ssn) vm.e.ssn = 'Required'; if (vm.cfg.race && !vm.f.race) vm.e.race = 'Required'; if (vm.cfg.ethnicity && !vm.f.ethnicity) vm.e.ethnicity = 'Required'; if (vm.cfg.marital && !vm.f.marital) vm.e.marital = 'Required'; if (vm.cfg.disability && !vm.f.disability) vm.e.disability = 'Required'; if (vm.cfg.address) { if (!vm.f.address) vm.e.address = 'Required'; if (!vm.f.city) vm.e.city = 'Required'; if (!vm.f.state) vm.e.state = 'Required'; if (!vm.f.zip) vm.e.zip = 'Required' } if (!vm.f.homeless) { if (vm.cfg.email && !vm.f.email) vm.e.email = 'Required'; if (vm.cfg.phone && !vm.f.phone) vm.e.phone = 'Required'; if (vm.cfg.emergency) { if (!vm.f.emRel) vm.e.emRel = 'Required' } } if (vm.cfg.family && !vm.f.familySize) vm.e.familySize = 'Required'; if (vm.cfg.employment && !vm.f.employment) vm.e.employment = 'Required'; if (vm.cfg.income && !vm.f.income) vm.e.income = 'Required' } if (!Object.keys(vm.e).length) { alert('Chart created successfully!'); vm.close() } else $t(function () { var el = document.querySelector('.err-msg'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }) }, 100) }; vm.reset(); document.getElementById('dlg').addEventListener('cancel', function (e) { e.preventDefault(); vm.close() }) }]);
+        angular.module('chartApp', []).controller('ChartCtrl', ['$timeout', function ($t) {
+            var vm = this;
+            vm.cfg = { ssn: true, race: true, ethnicity: false, marital: false, disability: false, family: false, employment: true, income: false, email: true, phone: true, address: true, emergency: true };
+            vm.f = {};
+            vm.e = {};
+
+            vm.reset = function () {
+                vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: 'CH-2024-00842', team: '' };
+                vm.e = {}
+            };
+
+            vm.open = function () {
+                vm.reset();
+                var d = document.getElementById('dlg');
+                d.classList.remove('animate-in');
+
+                // Disable transitions on open
+                var collapses = d.querySelectorAll('.collapse');
+                collapses.forEach(function (el) { el.classList.add('no-transition'); });
+
+                d.showModal();
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        d.classList.add('animate-in');
+                        // Re-enable transitions after render
+                        collapses.forEach(function (el) { el.classList.remove('no-transition'); });
+                    })
+                })
+            };
+
+            vm.close = function () {
+                var d = document.getElementById('dlg');
+                d.classList.remove('animate-in');
+                d.classList.add('closing');
+                $t(function () { d.close(); d.classList.remove('closing') }, 200)
+            };
+
+            vm.save = function () {
+                vm.e = {};
+                if (!vm.f.firstName) vm.e.firstName = 'Required';
+                if (!vm.f.lastName) vm.e.lastName = 'Required';
+                if (!vm.f.name) vm.e.name = 'Required';
+                if (!vm.f.dob) vm.e.dob = 'Required';
+                if (!vm.f.sex) vm.e.sex = 'Required';
+                if (!vm.f.gender) vm.e.gender = 'Required';
+                if (!vm.f.quick) {
+                    if (vm.cfg.ssn && !vm.f.ssn) vm.e.ssn = 'Required';
+                    if (vm.cfg.race && !vm.f.race) vm.e.race = 'Required';
+                    if (vm.cfg.ethnicity && !vm.f.ethnicity) vm.e.ethnicity = 'Required';
+                    if (vm.cfg.marital && !vm.f.marital) vm.e.marital = 'Required';
+                    if (vm.cfg.disability && !vm.f.disability) vm.e.disability = 'Required';
+                    if (vm.cfg.address) {
+                        if (!vm.f.address) vm.e.address = 'Required';
+                        if (!vm.f.city) vm.e.city = 'Required';
+                        if (!vm.f.state) vm.e.state = 'Required';
+                        if (!vm.f.zip) vm.e.zip = 'Required'
+                    }
+                    if (!vm.f.homeless) {
+                        if (vm.cfg.email && !vm.f.email) vm.e.email = 'Required';
+                        if (vm.cfg.phone && !vm.f.phone) vm.e.phone = 'Required';
+                        if (vm.cfg.emergency) {
+                            if (!vm.f.emRel) vm.e.emRel = 'Required'
+                        }
+                    }
+                    if (vm.cfg.family && !vm.f.familySize) vm.e.familySize = 'Required';
+                    if (vm.cfg.employment && !vm.f.employment) vm.e.employment = 'Required';
+                    if (vm.cfg.income && !vm.f.income) vm.e.income = 'Required'
+                }
+                if (!Object.keys(vm.e).length) {
+                    alert('Chart created successfully!');
+                    vm.close()
+                } else $t(function () {
+                    var el = document.querySelector('.err-msg');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }, 100)
+            };
+
+            vm.reset();
+            document.getElementById('dlg').addEventListener('cancel', function (e) {
+                e.preventDefault();
+                vm.close()
+            })
+        }]);
     </script>
 </body>
 
