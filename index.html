@@ -161,7 +161,8 @@
         .m-body {
             padding: 24px;
             max-height: calc(100vh - 250px);
-            overflow-y: auto
+            overflow-y: auto;
+            scrollbar-gutter: stable;
         }
 
         .sec {
@@ -211,19 +212,16 @@
         .collapse {
             display: grid;
             grid-template-rows: 1fr;
-            /* transition: grid-template-rows 420ms cubic-bezier(0.61, 1, 0.88, 1), opacity 360ms, margin 420ms cubic-bezier(0.61, 1, 0.88, 1); */
-            transition: grid-template-rows 360ms ease-out, opacity 300ms, margin 360ms ease-out
+            transition: grid-template-rows 480ms cubic-bezier(0.37, 0, 0.63, 1);
         }
 
         .collapse.hide {
             grid-template-rows: 0fr;
-            opacity: 0;
-            margin-bottom: 0 !important
+            margin-bottom: 0 !important;
         }
 
         .collapse>.inner {
             overflow: hidden;
-            min-height: 0
         }
 
         .row {
@@ -368,28 +366,28 @@
             <div class="sec">
                 <div class="sec-head"><span>Client Details</span><label class="chk"><input type="checkbox" ng-model="vm.f.quick">Quick chart</label></div>
                 <div class="row c3">
-                    <div class="grp"><label>Legal First Name<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.firstName" ng-class="{err:vm.e.firstName}">
+                    <div class="grp"><label for="firstName">Legal First Name<span class="req">*</span></label><input id="firstName" class="ctrl" ng-model="vm.f.firstName" ng-class="{err:vm.e.firstName}">
                         <div class="err-msg" ng-if="vm.e.firstName">{{vm.e.firstName}}</div>
                     </div>
-                    <div class="grp"><label>Legal Last Name<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.lastName" ng-class="{err:vm.e.lastName}">
+                    <div class="grp"><label for="lastName">Legal Last Name<span class="req">*</span></label><input id="lastName" class="ctrl" ng-model="vm.f.lastName" ng-class="{err:vm.e.lastName}">
                         <div class="err-msg" ng-if="vm.e.lastName">{{vm.e.lastName}}</div>
                     </div>
-                    <div class="grp"><label>Name<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.name" ng-class="{err:vm.e.name}">
+                    <div class="grp"><label for="name">Name<span class="req">*</span></label><input id="name" class="ctrl" ng-model="vm.f.name" ng-class="{err:vm.e.name}">
                         <div class="err-msg" ng-if="vm.e.name">{{vm.e.name}}</div>
                     </div>
                 </div>
                 <div class="row c3">
-                    <div class="grp"><label>Date of Birth<span class="req">*</span></label><input type="date" class="ctrl" ng-model="vm.f.dob" ng-class="{err:vm.e.dob}">
+                    <div class="grp"><label for="dob">Date of Birth<span class="req">*</span></label><input id="dob" type="date" class="ctrl" ng-model="vm.f.dob" ng-class="{err:vm.e.dob}">
                         <div class="err-msg" ng-if="vm.e.dob">{{vm.e.dob}}</div>
                     </div>
-                    <div class="grp"><label>Legal Sex<span class="req">*</span></label><select class="ctrl" ng-model="vm.f.sex" ng-class="{err:vm.e.sex}">
+                    <div class="grp"><label for="sex">Legal Sex<span class="req">*</span></label><select id="sex" class="ctrl" ng-model="vm.f.sex" ng-class="{err:vm.e.sex}">
                             <option value="">Select...</option>
                             <option>Male</option>
                             <option>Female</option>
                         </select>
                         <div class="err-msg" ng-if="vm.e.sex">{{vm.e.sex}}</div>
                     </div>
-                    <div class="grp"><label>Gender<span class="req">*</span></label><select class="ctrl" ng-model="vm.f.gender" ng-class="{err:vm.e.gender}">
+                    <div class="grp"><label for="gender">Gender<span class="req">*</span></label><select id="gender" class="ctrl" ng-model="vm.f.gender" ng-class="{err:vm.e.gender}">
                             <option value="">Select...</option>
                             <option>Male</option>
                             <option>Female</option>
@@ -402,7 +400,7 @@
                 <div class="collapse" ng-class="{'hide':vm.f.quick}">
                     <div class="inner">
                         <div class="row c2">
-                            <div class="grp"><label>Race<span class="req" ng-if="vm.cfg.race">*</span></label><select class="ctrl" ng-model="vm.f.race" ng-class="{err:vm.e.race}">
+                            <div class="grp"><label for="race">Race<span class="req" ng-if="vm.cfg.race">*</span></label><select id="race" class="ctrl" ng-model="vm.f.race" ng-class="{err:vm.e.race}">
                                     <option value="">Select...</option>
                                     <option>American Indian</option>
                                     <option>Asian</option>
@@ -413,7 +411,7 @@
                                 </select>
                                 <div class="err-msg" ng-if="vm.e.race">{{vm.e.race}}</div>
                             </div>
-                            <div class="grp"><label>Ethnicity<span class="req" ng-if="vm.cfg.ethnicity">*</span></label><select class="ctrl" ng-model="vm.f.ethnicity" ng-class="{err:vm.e.ethnicity}">
+                            <div class="grp"><label for="ethnicity">Ethnicity<span class="req" ng-if="vm.cfg.ethnicity">*</span></label><select id="ethnicity" class="ctrl" ng-model="vm.f.ethnicity" ng-class="{err:vm.e.ethnicity}">
                                     <option value="">Select...</option>
                                     <option>Hispanic or Latino</option>
                                     <option>Not Hispanic or Latino</option>
@@ -422,7 +420,7 @@
                             </div>
                         </div>
                         <div class="row c2">
-                            <div class="grp"><label>Marital Status<span class="req" ng-if="vm.cfg.marital">*</span></label><select class="ctrl" ng-model="vm.f.marital" ng-class="{err:vm.e.marital}">
+                            <div class="grp"><label for="marital">Marital Status<span class="req" ng-if="vm.cfg.marital">*</span></label><select id="marital" class="ctrl" ng-model="vm.f.marital" ng-class="{err:vm.e.marital}">
                                     <option value="">Select...</option>
                                     <option>Single</option>
                                     <option>Married</option>
@@ -431,7 +429,7 @@
                                 </select>
                                 <div class="err-msg" ng-if="vm.e.marital">{{vm.e.marital}}</div>
                             </div>
-                            <div class="grp"><label>Disability<span class="req" ng-if="vm.cfg.disability">*</span></label><select class="ctrl" ng-model="vm.f.disability" ng-class="{err:vm.e.disability}">
+                            <div class="grp"><label for="disability">Disability<span class="req" ng-if="vm.cfg.disability">*</span></label><select id="disability" class="ctrl" ng-model="vm.f.disability" ng-class="{err:vm.e.disability}">
                                     <option value="">Select...</option>
                                     <option>None</option>
                                     <option>Physical</option>
@@ -443,7 +441,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="grp"><label>SSN<span class="req" ng-if="vm.cfg.ssn">*</span></label><input class="ctrl" ng-model="vm.f.ssn" ng-class="{err:vm.e.ssn}" placeholder="XXX-XX-XXXX">
+                            <div class="grp"><label for="ssn">SSN<span class="req" ng-if="vm.cfg.ssn">*</span></label><input id="ssn" class="ctrl" ng-model="vm.f.ssn" ng-class="{err:vm.e.ssn}" placeholder="XXX-XX-XXXX">
                                 <div class="err-msg" ng-if="vm.e.ssn">{{vm.e.ssn}}</div>
                             </div>
                         </div>
@@ -454,23 +452,23 @@
                 <div class="inner">
                     <div class="sec-head"><span>Contact Information</span><label class="chk"><input type="checkbox" ng-model="vm.f.homeless">Client is homeless</label></div>
                     <div class="row c2">
-                        <div class="grp"><label>Email<span class="req" ng-if="vm.cfg.email&&!vm.f.homeless">*</span></label><input type="email" class="ctrl" ng-model="vm.f.email" ng-class="{err:vm.e.email}">
+                        <div class="grp"><label for="email">Email<span class="req" ng-if="vm.cfg.email&&!vm.f.homeless">*</span></label><input id="email" type="email" class="ctrl" ng-model="vm.f.email" ng-class="{err:vm.e.email}">
                             <div class="err-msg" ng-if="vm.e.email">{{vm.e.email}}</div>
                         </div>
-                        <div class="grp"><label>Phone<span class="req" ng-if="vm.cfg.phone&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.phone" ng-class="{err:vm.e.phone}" placeholder="(XXX) XXX-XXXX">
+                        <div class="grp"><label for="phone">Phone<span class="req" ng-if="vm.cfg.phone&&!vm.f.homeless">*</span></label><input id="phone" class="ctrl" ng-model="vm.f.phone" ng-class="{err:vm.e.phone}" placeholder="(XXX) XXX-XXXX">
                             <div class="err-msg" ng-if="vm.e.phone">{{vm.e.phone}}</div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="grp"><label>Street Address<span class="req" ng-if="vm.cfg.address">*</span></label><input class="ctrl" ng-model="vm.f.address" ng-class="{err:vm.e.address}">
+                        <div class="grp"><label for="address">Street Address<span class="req" ng-if="vm.cfg.address">*</span></label><input id="address" class="ctrl" ng-model="vm.f.address" ng-class="{err:vm.e.address}">
                             <div class="err-msg" ng-if="vm.e.address">{{vm.e.address}}</div>
                         </div>
                     </div>
                     <div class="row c3">
-                        <div class="grp"><label>City<span class="req" ng-if="vm.cfg.address">*</span></label><input class="ctrl" ng-model="vm.f.city" ng-class="{err:vm.e.city}">
+                        <div class="grp"><label for="city">City<span class="req" ng-if="vm.cfg.address">*</span></label><input id="city" class="ctrl" ng-model="vm.f.city" ng-class="{err:vm.e.city}">
                             <div class="err-msg" ng-if="vm.e.city">{{vm.e.city}}</div>
                         </div>
-                        <div class="grp"><label>State<span class="req" ng-if="vm.cfg.address">*</span></label><select class="ctrl" ng-model="vm.f.state" ng-class="{err:vm.e.state}">
+                        <div class="grp"><label for="state">State<span class="req" ng-if="vm.cfg.address">*</span></label><select id="state" class="ctrl" ng-model="vm.f.state" ng-class="{err:vm.e.state}">
                                 <option value="">Select...</option>
                                 <option>AL</option>
                                 <option>CA</option>
@@ -480,7 +478,7 @@
                             </select>
                             <div class="err-msg" ng-if="vm.e.state">{{vm.e.state}}</div>
                         </div>
-                        <div class="grp"><label>Zip<span class="req" ng-if="vm.cfg.address">*</span></label><input class="ctrl" ng-model="vm.f.zip" ng-class="{err:vm.e.zip}" placeholder="XXXXX" maxlength="5">
+                        <div class="grp"><label for="zip">Zip<span class="req" ng-if="vm.cfg.address">*</span></label><input id="zip" class="ctrl" ng-model="vm.f.zip" ng-class="{err:vm.e.zip}" placeholder="XXXXX" maxlength="5">
                             <div class="err-msg" ng-if="vm.e.zip">{{vm.e.zip}}</div>
                         </div>
                     </div>
@@ -490,15 +488,15 @@
                 <div class="inner">
                     <div class="sec-head"><span>Emergency Contact</span></div>
                     <div class="row c2">
-                        <div class="grp"><label>First Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.emFirst" ng-class="{err:vm.e.emFirst}">
+                        <div class="grp"><label for="emFirst">First Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input id="emFirst" class="ctrl" ng-model="vm.f.emFirst" ng-class="{err:vm.e.emFirst}">
                             <div class="err-msg" ng-if="vm.e.emFirst">{{vm.e.emFirst}}</div>
                         </div>
-                        <div class="grp"><label>Last Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.emLast" ng-class="{err:vm.e.emLast}">
+                        <div class="grp"><label for="emLast">Last Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input id="emLast" class="ctrl" ng-model="vm.f.emLast" ng-class="{err:vm.e.emLast}">
                             <div class="err-msg" ng-if="vm.e.emLast">{{vm.e.emLast}}</div>
                         </div>
                     </div>
                     <div class="row c3">
-                        <div class="grp"><label>Type<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select class="ctrl" ng-model="vm.f.emType" ng-class="{err:vm.e.emType}">
+                        <div class="grp"><label for="emType">Type<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select id="emType" class="ctrl" ng-model="vm.f.emType" ng-class="{err:vm.e.emType}">
                                 <option value="">Select...</option>
                                 <option>Emergency</option>
                                 <option>Secondary</option>
@@ -506,7 +504,7 @@
                             </select>
                             <div class="err-msg" ng-if="vm.e.emType">{{vm.e.emType}}</div>
                         </div>
-                        <div class="grp"><label>Relationship<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select class="ctrl" ng-model="vm.f.emRel" ng-class="{err:vm.e.emRel}">
+                        <div class="grp"><label for="emRel">Relationship<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select id="emRel" class="ctrl" ng-model="vm.f.emRel" ng-class="{err:vm.e.emRel}">
                                 <option value="">Select...</option>
                                 <option>Spouse</option>
                                 <option>Parent</option>
@@ -516,7 +514,7 @@
                             </select>
                             <div class="err-msg" ng-if="vm.e.emRel">{{vm.e.emRel}}</div>
                         </div>
-                        <div class="grp"><label>Phone<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input class="ctrl" ng-model="vm.f.emPhone" ng-class="{err:vm.e.emPhone}" placeholder="(XXX) XXX-XXXX">
+                        <div class="grp"><label for="emPhone">Phone<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input id="emPhone" class="ctrl" ng-model="vm.f.emPhone" ng-class="{err:vm.e.emPhone}" placeholder="(XXX) XXX-XXXX">
                             <div class="err-msg" ng-if="vm.e.emPhone">{{vm.e.emPhone}}</div>
                         </div>
                     </div>
@@ -526,10 +524,10 @@
                 <div class="inner">
                     <div class="sec-head"><span>Financial/Household</span></div>
                     <div class="row c3">
-                        <div class="grp"><label>Family Size<span class="req" ng-if="vm.cfg.family">*</span></label><input type="number" class="ctrl" ng-model="vm.f.familySize" ng-class="{err:vm.e.familySize}" min="1">
+                        <div class="grp"><label for="familySize">Family Size<span class="req" ng-if="vm.cfg.family">*</span></label><input id="familySize" type="number" class="ctrl" ng-model="vm.f.familySize" ng-class="{err:vm.e.familySize}" min="1">
                             <div class="err-msg" ng-if="vm.e.familySize">{{vm.e.familySize}}</div>
                         </div>
-                        <div class="grp"><label>Employment<span class="req" ng-if="vm.cfg.employment">*</span></label><select class="ctrl" ng-model="vm.f.employment" ng-class="{err:vm.e.employment}">
+                        <div class="grp"><label for="employment">Employment<span class="req" ng-if="vm.cfg.employment">*</span></label><select id="employment" class="ctrl" ng-model="vm.f.employment" ng-class="{err:vm.e.employment}">
                                 <option value="">Select...</option>
                                 <option>Full-Time</option>
                                 <option>Part-Time</option>
@@ -539,7 +537,7 @@
                             </select>
                             <div class="err-msg" ng-if="vm.e.employment">{{vm.e.employment}}</div>
                         </div>
-                        <div class="grp"><label>Income Range<span class="req" ng-if="vm.cfg.income">*</span></label><select class="ctrl" ng-model="vm.f.income" ng-class="{err:vm.e.income}">
+                        <div class="grp"><label for="income">Income Range<span class="req" ng-if="vm.cfg.income">*</span></label><select id="income" class="ctrl" ng-model="vm.f.income" ng-class="{err:vm.e.income}">
                                 <option value="">Select...</option>
                                 <option>$0-$25k</option>
                                 <option>$25k-$50k</option>
@@ -555,15 +553,15 @@
             <div class="sec">
                 <div class="sec-head"><span>Chart Details</span></div>
                 <div class="row c2">
-                    <div class="grp"><label>Principal Clinician<span class="req">*</span></label><select class="ctrl" ng-model="vm.f.clinician">
+                    <div class="grp"><label for="clinician">Principal Clinician<span class="req">*</span></label><select id="clinician" class="ctrl" ng-model="vm.f.clinician">
                             <option>Dr. Sarah Johnson</option>
                             <option>Dr. Michael Smith</option>
                             <option>Dr. Emily Williams</option>
                         </select></div>
-                    <div class="grp"><label>Chart ID<span class="req">*</span></label><input class="ctrl" ng-model="vm.f.chartId" placeholder="Auto-generated"></div>
+                    <div class="grp"><label for="chartId">Chart ID<span class="req">*</span></label><input id="chartId" class="ctrl" ng-model="vm.f.chartId" placeholder="Auto-generated"></div>
                 </div>
                 <div class="row">
-                    <div class="grp"><label>Clinical Team</label><select class="ctrl" ng-model="vm.f.team">
+                    <div class="grp"><label for="team">Clinical Team</label><select id="team" class="ctrl" ng-model="vm.f.team">
                             <option value="">Select...</option>
                             <option>Team Alpha</option>
                             <option>Team Beta</option>
