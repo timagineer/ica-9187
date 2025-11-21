@@ -276,7 +276,9 @@
             font-size: 14px;
             border: 1px solid var(--border);
             border-radius: 6px;
-            background: #fff
+            background: #fff;
+            width: 100%;
+            min-width: 0;
         }
 
         .ctrl:focus {
@@ -295,7 +297,9 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23475569' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 12px center;
-            cursor: pointer
+            cursor: pointer;
+            width: 100%;
+            min-width: 0;
         }
 
         .err-msg {
@@ -396,6 +400,7 @@
                             <option value="">Select...</option>
                             <option>Male</option>
                             <option>Female</option>
+                            <option>Unknown</option>
                         </select>
                         <div class="err-msg" ng-if="vm.e.sex">{{vm.e.sex}}</div>
                     </div>
@@ -403,8 +408,11 @@
                             <option value="">Select...</option>
                             <option>Male</option>
                             <option>Female</option>
-                            <option>Non-binary</option>
-                            <option>Other</option>
+                            <option>Female-to-Male (FTM)/Transgender Male/Trans Man</option>
+                            <option>Male-to-Female (MTF)/Transgender Female/Trans Woman</option>
+                            <option>Identifies as non-conforming gender</option>
+                            <option>Additional gender category or other, please specify</option>
+                            <option>Choose not to disclose</option>
                         </select>
                         <div class="err-msg" ng-if="vm.e.gender">{{vm.e.gender}}</div>
                     </div>
@@ -414,19 +422,84 @@
                         <div class="row c2">
                             <div class="grp"><label for="race">Race<span class="req" ng-if="vm.cfg.race">*</span></label><select id="race" class="ctrl" ng-model="vm.f.race" ng-class="{err:vm.e.race}">
                                     <option value="">Select...</option>
-                                    <option>American Indian</option>
                                     <option>Asian</option>
-                                    <option>Black</option>
-                                    <option>Pacific Islander</option>
+                                    <option>Black or African American</option>
+                                    <option>Declined to Specify</option>
+                                    <option>Native Hawaiian or Other Pacific Islander</option>
+                                    <option>Unknown</option>
                                     <option>White</option>
-                                    <option>Other</option>
                                 </select>
                                 <div class="err-msg" ng-if="vm.e.race">{{vm.e.race}}</div>
                             </div>
                             <div class="grp"><label for="ethnicity">Ethnicity<span class="req" ng-if="vm.cfg.ethnicity">*</span></label><select id="ethnicity" class="ctrl" ng-model="vm.f.ethnicity" ng-class="{err:vm.e.ethnicity}">
                                     <option value="">Select...</option>
+                                    <option>African-American</option>
+                                    <option>African-Caribbean</option>
+                                    <option>American Indian</option>
+                                    <option>Arab-American</option>
+                                    <option>ArmenianAmerican</option>
+                                    <option>Asian-American</option>
+                                    <option>Bangladeshi</option>
+                                    <option>Biracial American</option>
+                                    <option>Brazilian</option>
+                                    <option>Canadian</option>
+                                    <option>Caribbean</option>
+                                    <option>Caucasian</option>
+                                    <option>Central American</option>
+                                    <option>Central European</option>
+                                    <option>Chamorro</option>
+                                    <option>Chinese</option>
+                                    <option>Chinese-American</option>
+                                    <option>Colombian</option>
+                                    <option>Creole</option>
+                                    <option>Danish</option>
+                                    <option>Declined to Specify</option>
+                                    <option>Dominican</option>
+                                    <option>Ecuadorian</option>
+                                    <option>Eurasian</option>
+                                    <option>Filipino</option>
+                                    <option>Filipino-American</option>
+                                    <option>French</option>
+                                    <option>German-American</option>
+                                    <option>Greek-American</option>
+                                    <option>Haitian</option>
+                                    <option>Hawaiian</option>
                                     <option>Hispanic or Latino</option>
+                                    <option>Hungarian</option>
+                                    <option>Indian</option>
+                                    <option>Iranian</option>
+                                    <option>Irish-American</option>
+                                    <option>Israeli</option>
+                                    <option>Italian-American</option>
+                                    <option>Japanese-American</option>
+                                    <option>Jewish-American</option>
+                                    <option>Jewish-Moroccan</option>
+                                    <option>Korean</option>
+                                    <option>Latin American</option>
+                                    <option>Latino</option>
+                                    <option>Lebanese</option>
+                                    <option>Mexican</option>
+                                    <option>Middle Eastern</option>
+                                    <option>Mixed Racial American</option>
+                                    <option>Native Alaskan</option>
+                                    <option>Native American</option>
                                     <option>Not Hispanic or Latino</option>
+                                    <option>Pacific Islander</option>
+                                    <option>Pakistani</option>
+                                    <option>Persian</option>
+                                    <option>Persian-English</option>
+                                    <option>Peruvian</option>
+                                    <option>Polish-American</option>
+                                    <option>Portuguese</option>
+                                    <option>Puerto Rican</option>
+                                    <option>Romanian/Venezuelan</option>
+                                    <option>Russian</option>
+                                    <option>Swedish</option>
+                                    <option>Syrian</option>
+                                    <option>Thai</option>
+                                    <option>Turkish</option>
+                                    <option>Unknown</option>
+                                    <option>Vietnamese</option>
                                 </select>
                                 <div class="err-msg" ng-if="vm.e.ethnicity">{{vm.e.ethnicity}}</div>
                             </div>
@@ -434,9 +507,15 @@
                         <div class="row c2">
                             <div class="grp"><label for="marital">Marital Status<span class="req" ng-if="vm.cfg.marital">*</span></label><select id="marital" class="ctrl" ng-model="vm.f.marital" ng-class="{err:vm.e.marital}">
                                     <option value="">Select...</option>
-                                    <option>Single</option>
-                                    <option>Married</option>
+                                    <option>Declined to specify</option>
                                     <option>Divorced</option>
+                                    <option>Domestic Partner</option>
+                                    <option>Engaged</option>
+                                    <option>Married</option>
+                                    <option>Never Married</option>
+                                    <option>Separated</option>
+                                    <option>Single</option>
+                                    <option>Unknown</option>
                                     <option>Widowed</option>
                                 </select>
                                 <div class="err-msg" ng-if="vm.e.marital">{{vm.e.marital}}</div>
@@ -444,10 +523,13 @@
                             <div class="grp"><label for="disability">Disability<span class="req" ng-if="vm.cfg.disability">*</span></label><select id="disability" class="ctrl" ng-model="vm.f.disability" ng-class="{err:vm.e.disability}">
                                     <option value="">Select...</option>
                                     <option>None</option>
-                                    <option>Physical</option>
-                                    <option>Cognitive</option>
-                                    <option>Sensory</option>
-                                    <option>Multiple</option>
+                                    <option>Blind</option>
+                                    <option>Deaf</option>
+                                    <option>Developmental Disability</option>
+                                    <option>Hard of Hearing</option>
+                                    <option>Intellectual Disability</option>
+                                    <option>Legally Blind</option>
+                                    <option>Unknown</option>
                                 </select>
                                 <div class="err-msg" ng-if="vm.e.disability">{{vm.e.disability}}</div>
                             </div>
@@ -482,11 +564,56 @@
                         </div>
                         <div class="grp"><label for="state">State<span class="req" ng-if="vm.cfg.address">*</span></label><select id="state" class="ctrl" ng-model="vm.f.state" ng-class="{err:vm.e.state}">
                                 <option value="">Select...</option>
-                                <option>AL</option>
-                                <option>CA</option>
-                                <option>FL</option>
-                                <option>NY</option>
-                                <option>TX</option>
+                                <option>Alabama</option>
+                                <option>Alaska</option>
+                                <option>Arizona</option>
+                                <option>Arkansas</option>
+                                <option>California</option>
+                                <option>Colorado</option>
+                                <option>Connecticut</option>
+                                <option>Delaware</option>
+                                <option>Florida</option>
+                                <option>Georgia</option>
+                                <option>Hawaii</option>
+                                <option>Idaho</option>
+                                <option>Illinois</option>
+                                <option>Indiana</option>
+                                <option>Iowa</option>
+                                <option>Kansas</option>
+                                <option>Kentucky</option>
+                                <option>Louisiana</option>
+                                <option>Maine</option>
+                                <option>Maryland</option>
+                                <option>Massachusetts</option>
+                                <option>Michigan</option>
+                                <option>Minnesota</option>
+                                <option>Mississippi</option>
+                                <option>Missouri</option>
+                                <option>Montana</option>
+                                <option>Nebraska</option>
+                                <option>Nevada</option>
+                                <option>New Hampshire</option>
+                                <option>New Jersey</option>
+                                <option>New Mexico</option>
+                                <option>New York</option>
+                                <option>North Carolina</option>
+                                <option>North Dakota</option>
+                                <option>Ohio</option>
+                                <option>Oklahoma</option>
+                                <option>Oregon</option>
+                                <option>Pennsylvania</option>
+                                <option>Rhode Island</option>
+                                <option>South Carolina</option>
+                                <option>South Dakota</option>
+                                <option>Tennessee</option>
+                                <option>Texas</option>
+                                <option>Utah</option>
+                                <option>Vermont</option>
+                                <option>Virginia</option>
+                                <option>Washington</option>
+                                <option>West Virginia</option>
+                                <option>Wisconsin</option>
+                                <option>Wyoming</option>
                             </select>
                             <div class="err-msg" ng-if="vm.e.state">{{vm.e.state}}</div>
                         </div>
@@ -510,19 +637,35 @@
                     <div class="row c3">
                         <div class="grp"><label for="emType">Type<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select id="emType" class="ctrl" ng-model="vm.f.emType" ng-class="{err:vm.e.emType}">
                                 <option value="">Select...</option>
-                                <option>Emergency</option>
-                                <option>Secondary</option>
-                                <option>Other</option>
+                                <option>Family</option>
+                                <option>Medical</option>
+                                <option>Custom</option>
                             </select>
                             <div class="err-msg" ng-if="vm.e.emType">{{vm.e.emType}}</div>
                         </div>
                         <div class="grp"><label for="emRel">Relationship<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select id="emRel" class="ctrl" ng-model="vm.f.emRel" ng-class="{err:vm.e.emRel}">
                                 <option value="">Select...</option>
-                                <option>Spouse</option>
-                                <option>Parent</option>
-                                <option>Sibling</option>
-                                <option>Friend</option>
-                                <option>Other</option>
+                                <optgroup label="Family">
+                                    <option>Biological Parent 1</option>
+                                    <option>Biological Parent 2</option>
+                                    <option>Adoptive Parent 1</option>
+                                    <option>Adoptive Parent 2</option>
+                                    <option>Spouse</option>
+                                    <option>Step Parent 1</option>
+                                    <option>Step Parent 2</option>
+                                    <option>Foster Parent 1</option>
+                                    <option>Foster Parent 2</option>
+                                    <option>Guardian 1</option>
+                                    <option>Guardian 2</option>
+                                <optgroup label="Medical">
+                                    <option>Primary Care Physician</option>
+                                    <option>Outpatient Psychiatrist</option>
+                                    <option>Outpatient Therapist</option>
+                                    <option>School Contact</option>
+                                    <option>SASS Worker</option>
+                                    <option>Pharmacy</option>
+                                <optgroup label="Custom">
+                                    <option>New Custom</option>
                             </select>
                             <div class="err-msg" ng-if="vm.e.emRel">{{vm.e.emRel}}</div>
                         </div>
@@ -541,21 +684,28 @@
                         </div>
                         <div class="grp"><label for="employment">Employment<span class="req" ng-if="vm.cfg.employment">*</span></label><select id="employment" class="ctrl" ng-model="vm.f.employment" ng-class="{err:vm.e.employment}">
                                 <option value="">Select...</option>
-                                <option>Full-Time</option>
-                                <option>Part-Time</option>
-                                <option>Unemployed</option>
-                                <option>Retired</option>
-                                <option>Student</option>
+                                <option>Disabled</optiom>
+                                <option>Employed Full-Time</optiom>
+                                <option>Employed Part-Time</optiom>
+                                <option>Homemaker</optiom>
+                                <option>Retired</optiom>
+                                <option>Self-Employed</optiom>
+                                <option>Stay at home parent</optiom>
+                                <option>Student Full-Time</optiom>
+                                <option>Student Part-Time</optiom>
+                                <option>Unemployed</optiom>
+                                <option>Unknown</optiom>
                             </select>
                             <div class="err-msg" ng-if="vm.e.employment">{{vm.e.employment}}</div>
                         </div>
                         <div class="grp"><label for="income">Income Range<span class="req" ng-if="vm.cfg.income">*</span></label><select id="income" class="ctrl" ng-model="vm.f.income" ng-class="{err:vm.e.income}">
                                 <option value="">Select...</option>
-                                <option>$0-$25k</option>
-                                <option>$25k-$50k</option>
-                                <option>$50k-$75k</option>
-                                <option>$75k-$100k</option>
-                                <option>$100k+</option>
+                                <option>$0-$24,999</option>
+                                <option>$25,000-$49,999</option>
+                                <option>$50,000-$74,999</option>
+                                <option>$75,000-$99,999</option>
+                                <option>$100,000+</option>
+                                <option>Unknown</option>
                             </select>
                             <div class="err-msg" ng-if="vm.e.income">{{vm.e.income}}</div>
                         </div>
@@ -592,7 +742,7 @@
             vm.e = {};
 
             vm.reset = function () {
-                vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: 'CH-2024-00842', team: '' };
+                vm.f = { firstName: '', lastName: '', name: '', dob: '', sex: '', gender: '', ssn: '', race: '', ethnicity: '', marital: '', disability: '', homeless: false, quick: true, email: '', phone: '', address: '', city: '', state: '', zip: '', emFirst: '', emLast: '', emPhone: '', emType: '', emRel: '', familySize: '', employment: '', income: '', clinician: 'Dr. Sarah Johnson', chartId: '0173', team: '' };
                 vm.e = {}
             };
 
