@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICANotes+ Functional Prototypes: DO-9187</title>
+    <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
         :root {
@@ -184,7 +185,11 @@
             margin-bottom: 28px
         }
 
-        .sec:last-child {
+        .sec:has(.collapse.hide) {
+            margin-bottom: 14px;
+        }
+
+        .m-body>.sec:last-child {
             margin-bottom: 0
         }
 
@@ -226,14 +231,22 @@
         }
 
         .collapse {
-            --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
             display: grid;
             grid-template-rows: 1fr;
             transition:
-                grid-template-rows 600ms var(--ease-in-out-sine),
-                opacity 420ms,
-                margin 600ms var(--ease-in-out-sine);
+                grid-template-rows 600ms var(--ease-in-out),
+                opacity 480ms var(--ease-in-out),
+                margin 600ms var(--ease-in-out);
             opacity: 1;
+        }
+
+        .collapse>.inner {
+            /* overflow: visible; */
+            overflow: hidden;
+            /* This ensures smooth height calculation */
+            min-height: 0;
+            padding: 3px;
         }
 
         .collapse.hide {
@@ -242,12 +255,11 @@
             margin-bottom: 0 !important;
         }
 
-        .collapse>.inner {
-            overflow: visible;
-            /* This ensures smooth height calculation */
-            min-height: 0;
-            padding: 1px;
+        .collapse.hide>.inner {
+            padding: 0;
+            margin: 0;
         }
+
 
         .collapse.no-transition {
             transition: none !important;
