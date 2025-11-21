@@ -15,7 +15,7 @@
             --error: hsl(0, 84%, 60%);
             --text: hsl(222, 47%, 11%);
             --muted: hsl(222, 19%, 35%);
-            accent-color: var(--primary)
+            accent-color: var(--primary);
         }
 
         * {
@@ -193,7 +193,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 14px;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
+            /* was: 8px */
             border-bottom: 1px solid #e2e8f0;
             font-size: 13px;
             font-weight: 600
@@ -242,9 +243,10 @@
         }
 
         .collapse>.inner {
-            overflow: hidden;
+            overflow: visible;
             /* This ensures smooth height calculation */
             min-height: 0;
+            padding: 1px;
         }
 
         .collapse.no-transition {
