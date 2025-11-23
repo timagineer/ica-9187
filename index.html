@@ -8,432 +8,632 @@
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <style>
-        :root {
-            --primary: hsl(222, 47%, 31%);
-            --primary-hover: hsl(222, 47%, 25%);
-            --bg: hsl(222, 40%, 98%);
-            --border: hsl(222, 27%, 84%);
-            --error: hsl(0, 84%, 60%);
-            --text: hsl(222, 47%, 11%);
-            --muted: hsl(222, 19%, 35%);
-            accent-color: var(--primary);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scrollbar-gutter: stable;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 14px;
-            background: var(--bg);
-            padding: 20px;
-        }
-
-        .demo {
-            max-width: 420px;
-            margin: 0 auto 20px;
-            background: #fff;
-            padding: 32px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0
-        }
-
-        .demo h2 {
-            font-size: 16px;
-            margin-bottom: 24px;
-            text-align: center
-        }
-
-        .toggles {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            max-width: 360px;
-            margin: 0 auto
-        }
-
-        @media(max-width:480px) {
-            .toggles {
-                grid-template-columns: 1fr
+        @layer config {
+            :root {
+                --primary: oklch(38% 0.09 259);
+                --primary-hover: oklch(32% 0.09 259);
+                --bg: oklch(97% 0.01 259);
+                --border: oklch(85% 0.01 259);
+                --error: oklch(55% 0.22 25);
+                --text: oklch(20% 0.09 259);
+                --muted: oklch(50% 0.03 259);
+                --white: oklch(100% 0 0);
+                --font-size-base: 0.875rem;
+                --font-size-header: 1rem;
+                --font-size-xs: 0.8125rem;
+                --space-xs: 0.3125rem;
+                --space-sm: 0.5rem;
+                --space-md: 0.75rem;
+                --space-lg: 1rem;
+                --space-xl: 1.25rem;
+                --space-2xl: 1.5rem;
+                --radius-sm: 0.25rem;
+                --radius-md: 0.375rem;
+                --radius-lg: 0.5rem;
+                accent-color: var(--primary);
             }
         }
 
-        .toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--muted);
-            text-align: left
+        @layer resets {
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+                scrollbar-gutter: stable;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                font-size: var(--font-size-base);
+                background: var(--bg);
+                padding: var(--space-xl);
+            }
+
+            button,
+            input,
+            optgroup,
+            select {
+                font: inherit;
+            }
+
+            fieldset {
+                border: none;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-size: inherit;
+                font-weight: inherit;
+            }
         }
 
-        .toggle input {
-            width: 16px;
-            height: 16px;
-            cursor: pointer
+        @layer components {
+            .demo {
+                max-width: 26.25rem;
+                margin-block: 0.625rem 1.25rem;
+                margin-inline: auto;
+                background: var(--white);
+                padding: var(--space-2xl);
+                border-radius: var(--radius-lg);
+                border: 1px solid oklch(90% 0.01 259);
+            }
+
+            .demo h1 {
+                font-size: var(--font-size-header);
+                font-weight: 600;
+                margin-block-end: var(--space-xl);
+                text-align: center;
+            }
+
+            .demo fieldset {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-md);
+                max-width: 22.5rem;
+                margin-inline: auto;
+            }
+
+            @media(max-width: 30rem) {
+                .demo fieldset {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .demo label {
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                color: var(--muted);
+                text-align: start;
+            }
+
+            .demo input[type="checkbox"] {
+                inline-size: 1rem;
+                block-size: 1rem;
+                cursor: pointer;
+            }
+
+            .demo>button {
+                display: block;
+                margin-block-start: 2rem;
+                margin-inline: auto;
+                padding-block: var(--space-md);
+                padding-inline: var(--space-2xl);
+                background: var(--primary);
+                color: var(--white);
+                border: none;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+            }
+
+            .demo>button:hover {
+                background: var(--primary-hover);
+            }
+
+            .demo>button:focus-visible {
+                outline: 0.1875rem solid var(--primary);
+                outline-offset: 0.125rem;
+            }
+
+            dialog {
+                border: none;
+                border-radius: var(--radius-lg);
+                box-shadow: 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, 0.1);
+                margin: auto;
+                padding: 0;
+                max-inline-size: 50rem;
+                inline-size: calc(100% - 2rem);
+                opacity: 0;
+                transform: translateY(0.3125rem) scale(0.99);
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                dialog {
+                    transition: opacity 240ms, transform 240ms ease-out;
+                }
+
+                dialog::backdrop {
+                    transition: opacity 240ms;
+                }
+            }
+
+            dialog[open].animate-in {
+                opacity: 1;
+                transform: none;
+            }
+
+            dialog.closing {
+                opacity: 0;
+                transform: translateY(0.3125rem) scale(0.99);
+            }
+
+            dialog::backdrop {
+                background: rgba(0, 0, 0, 0.2);
+            }
+
+            dialog:not(.animate-in)::backdrop {
+                opacity: 0;
+            }
+
+            dialog.animate-in::backdrop {
+                opacity: 1;
+            }
+
+            dialog.closing::backdrop {
+                opacity: 0;
+            }
+
+            dialog>header {
+                background: var(--primary);
+                color: var(--white);
+                padding-block: var(--space-lg);
+                padding-inline: var(--space-2xl);
+                border-start-start-radius: var(--radius-lg);
+                border-start-end-radius: var(--radius-lg);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            dialog h2 {
+                font-size: var(--font-size-header);
+                font-weight: 600;
+            }
+
+            dialog>header button {
+                background: none;
+                border: none;
+                color: var(--white);
+                cursor: pointer;
+                padding: 0.75rem;
+                margin-inline-end: -1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: var(--radius-sm);
+                inline-size: 2.75rem;
+                block-size: 2.75rem;
+            }
+
+            dialog>header button svg {
+                inline-size: 1.25rem;
+                block-size: 1.25rem;
+                flex-shrink: 0;
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                dialog>header button {
+                    transition: background-color 200ms;
+                }
+            }
+
+            dialog>header button:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            dialog>header button:active {
+                background-color: rgba(255, 255, 255, 0.2);
+                outline: 0.125rem solid rgba(255, 255, 255, 0.5);
+                outline-offset: 0.125rem;
+            }
+
+            dialog>header button:focus-visible {
+                outline: none;
+                outline-offset: 0.125rem;
+            }
+
+            dialog>div {
+                padding: var(--space-2xl);
+                max-block-size: calc(100vh - 15.625rem);
+                overflow-y: auto;
+                scrollbar-gutter: stable;
+            }
+
+            section {
+                margin-block-end: 1.75rem;
+            }
+
+            section:has(.collapse.hide) {
+                margin-block-end: var(--space-md);
+            }
+
+            dialog>div>section:last-child {
+                margin-block-end: 0;
+            }
+
+            section>header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-block-end: var(--space-md);
+                padding-block-end: var(--space-md);
+                border-block-end: 1px solid oklch(90% 0.01 259);
+            }
+
+            section>div>header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-block-end: var(--space-md);
+                padding-block-end: var(--space-md);
+                border-block-end: 1px solid oklch(90% 0.01 259);
+            }
+
+            section>header h3,
+            section>div>header h3 {
+                margin-block-end: 0;
+                padding-block-end: 0;
+                border-block-end: none;
+            }
+
+            section h3 {
+                font-size: var(--font-size-base);
+                font-weight: 600;
+                margin-block-end: var(--space-md);
+                padding-block-end: var(--space-md);
+                border-block-end: 1px solid oklch(90% 0.01 259);
+            }
+
+            section label:has(input[type="checkbox"]) {
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                font-weight: 500;
+                color: var(--muted);
+            }
+
+            section input[type="checkbox"] {
+                inline-size: 1rem;
+                block-size: 1rem;
+                cursor: pointer;
+            }
+
+            .collapse {
+                display: grid;
+                grid-template-rows: 1fr;
+                opacity: 1;
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                .collapse {
+                    transition: grid-template-rows 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 480ms cubic-bezier(0.4, 0, 0.2, 1),
+                        margin 600ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+            }
+
+            .collapse>div {
+                overflow: hidden;
+                min-block-size: 0;
+                padding: 0.1875rem;
+            }
+
+            .collapse.hide {
+                grid-template-rows: 0fr;
+                opacity: 0;
+                margin-block-end: 0;
+            }
+
+            .collapse.hide>div {
+                padding: 0;
+                margin: 0;
+            }
+
+            .collapse.no-transition {
+                transition: none;
+            }
+
+            .row {
+                display: grid;
+                gap: var(--space-lg);
+                margin-block-end: var(--space-md);
+            }
+
+            .row:last-child {
+                margin-block-end: 0;
+            }
+
+            .row.cols-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .row.cols-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .field {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-xs);
+            }
+
+            .field label {
+                font-weight: 500;
+                color: var(--muted);
+            }
+
+            .required {
+                color: var(--error);
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"],
+            input[type="number"],
+            select {
+                block-size: 2.5rem;
+                padding-inline: var(--space-md);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                background: var(--white);
+                inline-size: 100%;
+                min-inline-size: 0;
+            }
+
+            input:focus-visible,
+            select:focus-visible {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 0.1875rem oklch(38% 0.09 259 / 0.1);
+            }
+
+            input.error,
+            select.error {
+                border-color: var(--error);
+            }
+
+            input.error:focus-visible,
+            select.error:focus-visible {
+                border-color: var(--error);
+                box-shadow: 0 0 0 0.1875rem oklch(55% 0.22 25 / 0.1);
+            }
+
+            select {
+                appearance: none;
+                padding-inline-end: 2rem;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23475569' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right var(--space-md) center;
+                cursor: pointer;
+            }
+
+            .error-message {
+                color: var(--error);
+                font-size: var(--font-size-xs);
+            }
+
+            dialog>footer {
+                padding-block: var(--space-lg);
+                padding-inline: var(--space-2xl);
+                background: var(--bg);
+                border-block-start: 1px solid oklch(90% 0.01 259);
+                border-end-start-radius: var(--radius-lg);
+                border-end-end-radius: var(--radius-lg);
+                display: flex;
+                justify-content: flex-end;
+                gap: var(--space-md);
+            }
+
+            dialog button[type="button"] {
+                block-size: 2.5rem;
+                padding-inline: var(--space-xl);
+                font-weight: 500;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+            }
+
+            .button-secondary {
+                background: var(--white);
+                color: var(--muted);
+                border: 1px solid var(--border);
+            }
+
+            .button-secondary:hover {
+                background: oklch(98% 0.01 259);
+            }
+
+            .button-secondary:focus-visible {
+                outline: 0.125rem solid var(--primary);
+                outline-offset: 0.125rem;
+            }
+
+            .button-primary {
+                background: var(--primary);
+                color: var(--white);
+                border: none;
+            }
+
+            .button-primary:hover {
+                background: var(--primary-hover);
+            }
+
+            .button-primary:focus-visible {
+                outline: 0.125rem solid var(--primary);
+                outline-offset: 0.125rem;
+            }
+
+            @media(max-width: 40rem) {
+
+                .row.cols-2,
+                .row.cols-3 {
+                    grid-template-columns: 1fr;
+                }
+            }
         }
 
-        .launch {
-            display: block;
-            margin: 32px auto 0;
-            padding: 12px 24px;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer
-        }
-
-        .launch:hover {
-            background: var(--primary-hover)
-        }
-
-        dialog {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1);
-            margin: auto !important;
-            padding: 0;
-            max-width: 50rem;
-            width: calc(100% - 2rem);
-            opacity: 0;
-            transform: translateY(5px) scale(.99);
-            transition: opacity 240ms, transform 240ms ease-out;
-        }
-
-        dialog[open].animate-in {
-            opacity: 1;
-            transform: none
-        }
-
-        dialog.closing {
-            opacity: 0;
-            transform: translateY(5px) scale(.99)
-        }
-
-        dialog::backdrop {
-            background: rgba(0, 0, 0, .2);
-            transition: opacity 240ms;
-        }
-
-        dialog:not(.animate-in)::backdrop {
-            opacity: 0;
-        }
-
-        dialog.animate-in::backdrop {
-            opacity: 1;
-        }
-
-        dialog.closing::backdrop {
-            opacity: 0;
-        }
-
-        .m-head {
-            background: var(--primary);
-            color: #fff;
-            padding: 16px 24px;
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center
-        }
-
-        .m-head h3 {
-            font-size: 16px
-        }
-
-        .m-head button {
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            padding: 12px;
-            margin: -12px -16px -12px 0;
-            /* Negative margin to maintain visual alignment */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            transition: background-color 200ms;
-        }
-
-        .m-head button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .m-head button:active {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .m-body {
-            padding: 24px;
-            max-height: calc(100vh - 250px);
-            overflow-y: auto;
-            scrollbar-gutter: stable;
-        }
-
-        .sec {
-            margin-bottom: 28px
-        }
-
-        .sec:has(.collapse.hide) {
-            margin-bottom: 14px;
-        }
-
-        .m-body>.sec:last-child {
-            margin-bottom: 0
-        }
-
-        .sec-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            padding-bottom: 12px;
-            /* was: 8px */
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 13px;
-            font-weight: 600
-        }
-
-        .chk {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            color: var(--muted)
-        }
-
-        .chk input {
-            width: 16px;
-            height: 16px;
-            cursor: pointer
-        }
-
-        input[type="date"]::placeholder {
-            text-transform: uppercase;
-        }
-
-        input[type="date"]::-webkit-datetime-edit-text,
-        input[type="date"]::-webkit-datetime-edit-month-field,
-        input[type="date"]::-webkit-datetime-edit-day-field,
-        input[type="date"]::-webkit-datetime-edit-year-field {
-            text-transform: uppercase;
-        }
-
-        .collapse {
-            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-            display: grid;
-            grid-template-rows: 1fr;
-            transition:
-                grid-template-rows 600ms var(--ease-in-out),
-                opacity 480ms var(--ease-in-out),
-                margin 600ms var(--ease-in-out);
-            opacity: 1;
-        }
-
-        .collapse>.inner {
-            /* overflow: visible; */
-            overflow: hidden;
-            /* This ensures smooth height calculation */
-            min-height: 0;
-            padding: 3px;
-        }
-
-        .collapse.hide {
-            grid-template-rows: 0fr;
-            opacity: 0;
-            margin-bottom: 0 !important;
-        }
-
-        .collapse.hide>.inner {
-            padding: 0;
-            margin: 0;
-        }
-
-
-        .collapse.no-transition {
-            transition: none !important;
-        }
-
-        .row {
-            display: grid;
-            gap: 16px;
-            margin-bottom: 14px
-        }
-
-        .row:last-child {
-            margin-bottom: 0
-        }
-
-        .c2 {
-            grid-template-columns: 1fr 1fr
-        }
-
-        .c3 {
-            grid-template-columns: 1fr 1fr 1fr
-        }
-
-        .grp {
-            display: flex;
-            flex-direction: column;
-            gap: 5px
-        }
-
-        .grp label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--muted)
-        }
-
-        .grp .req {
-            color: var(--error)
-        }
-
-        .ctrl {
-            height: 40px;
-            padding: 0 12px;
-            font-size: 14px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: #fff;
-            width: 100%;
-            min-width: 0;
-        }
-
-        .ctrl:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 23, 42, .1)
-        }
-
-        .ctrl.err {
-            border-color: var(--error)
-        }
-
-        select.ctrl {
-            appearance: none;
-            padding-right: 32px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23475569' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            cursor: pointer;
-            width: 100%;
-            min-width: 0;
-        }
-
-        .err-msg {
-            color: var(--error);
-            font-size: 12px
-        }
-
-        .m-foot {
-            padding: 16px 24px;
-            background: var(--bg);
-            border-top: 1px solid #e2e8f0;
-            border-radius: 0 0 8px 8px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px
-        }
-
-        .btn {
-            height: 40px;
-            padding: 0 20px;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer
-        }
-
-        .btn-sec {
-            background: #fff;
-            color: var(--muted);
-            border: 1px solid var(--border)
-        }
-
-        .btn-pri {
-            background: var(--primary);
-            color: #fff
-        }
-
-        .btn-pri:hover {
-            background: var(--primary-hover)
-        }
-
-        @media(max-width:640px) {
-
-            .c2,
-            .c3 {
-                grid-template-columns: 1fr
+        @layer utilities {
+            .visually-hidden {
+                position: absolute;
+                inline-size: 0.0625rem;
+                block-size: 0.0625rem;
+                padding: 0;
+                margin: -0.0625rem;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border-width: 0;
             }
         }
     </style>
 </head>
 
 <body ng-controller="ChartCtrl as vm">
-    <div class="demo">
-        <h2>Required Fields Simulation</h2>
-        <div class="toggles">
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.ssn">SSN</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.race">Race</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.ethnicity">Ethnicity</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.marital">Marital Status</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.disability">Disability</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.family">Family Size</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.employment">Employment Status</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.income">Income Range</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.email">Email</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.phone">Phone</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.address">Address</label>
-            <label class="toggle"><input type="checkbox" ng-model="vm.cfg.emergency">Emergency Contact</label>
+    <main>
+        <div class="demo">
+            <h1>Required Fields Simulation</h1>
+            <fieldset>
+                <legend class="visually-hidden">Select required fields</legend>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.ssn">
+                    <span>SSN</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.race">
+                    <span>Race</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.ethnicity">
+                    <span>Ethnicity</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.marital">
+                    <span>Marital Status</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.disability">
+                    <span>Disability</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.family">
+                    <span>Family Size</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.employment">
+                    <span>Employment Status</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.income">
+                    <span>Income Range</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.email">
+                    <span>Email</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.phone">
+                    <span>Phone</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.address">
+                    <span>Address</span>
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="vm.cfg.emergency">
+                    <span>Emergency Contact</span>
+                </label>
+            </fieldset>
+            <button ng-click="vm.open()">Create New Chart</button>
         </div>
-        <button class="launch" ng-click="vm.open()">Create New Chart</button>
-    </div>
-    <dialog id="dlg">
-        <div class="m-head">
-            <h3>Create New Chart</h3>
-            <button ng-click="vm.close()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    </main>
+
+    <dialog id="js-dialog" aria-labelledby="dialog-title">
+        <header>
+            <h2 id="dialog-title">Create New Chart</h2>
+            <button type="button" ng-click="vm.close()" aria-label="Close dialog">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M18 6L6 18M6 6l12 12" />
-                </svg></button>
-        </div>
-        <div class="m-body">
-            <div class="sec">
-                <div class="sec-head"><span>Client Details</span><label class="chk"><input type="checkbox" ng-model="vm.f.quick">Quick chart</label></div>
-                <div class="row c3">
-                    <div class="grp"><label for="firstName">Legal First Name<span class="req">*</span></label><input id="firstName" class="ctrl" ng-model="vm.f.firstName" ng-class="{err:vm.e.firstName}">
-                        <div class="err-msg" ng-if="vm.e.firstName">{{vm.e.firstName}}</div>
+                </svg>
+            </button>
+        </header>
+
+        <div>
+            <section aria-labelledby="client-details">
+                <header>
+                    <h3 id="client-details">Client Details</h3>
+                    <label>
+                        <input type="checkbox" ng-model="vm.f.quick">
+                        <span>Quick chart</span>
+                    </label>
+                </header>
+
+                <div class="row cols-3">
+                    <div class="field">
+                        <label for="firstName">
+                            Legal First Name<span class="required" aria-label="required">*</span>
+                        </label>
+                        <input id="firstName" type="text" ng-model="vm.f.firstName" ng-class="{error: vm.e.firstName}" aria-required="true" aria-invalid="{{!!vm.e.firstName}}" aria-describedby="{{vm.e.firstName ? 'firstName-error' : ''}}">
+                        <div id="firstName-error" class="error-message" ng-if="vm.e.firstName" role="alert">{{vm.e.firstName}}</div>
                     </div>
-                    <div class="grp"><label for="lastName">Legal Last Name<span class="req">*</span></label><input id="lastName" class="ctrl" ng-model="vm.f.lastName" ng-class="{err:vm.e.lastName}">
-                        <div class="err-msg" ng-if="vm.e.lastName">{{vm.e.lastName}}</div>
+                    <div class="field">
+                        <label for="lastName">
+                            Legal Last Name<span class="required" aria-label="required">*</span>
+                        </label>
+                        <input id="lastName" type="text" ng-model="vm.f.lastName" ng-class="{error: vm.e.lastName}" aria-required="true" aria-invalid="{{!!vm.e.lastName}}" aria-describedby="{{vm.e.lastName ? 'lastName-error' : ''}}">
+                        <div id="lastName-error" class="error-message" ng-if="vm.e.lastName" role="alert">{{vm.e.lastName}}</div>
                     </div>
-                    <div class="grp"><label for="name">Name<span class="req">*</span></label><input id="name" class="ctrl" ng-model="vm.f.name" ng-class="{err:vm.e.name}">
-                        <div class="err-msg" ng-if="vm.e.name">{{vm.e.name}}</div>
+                    <div class="field">
+                        <label for="name">
+                            Name<span class="required" aria-label="required">*</span>
+                        </label>
+                        <input id="name" type="text" ng-model="vm.f.name" ng-class="{error: vm.e.name}" aria-required="true" aria-invalid="{{!!vm.e.name}}" aria-describedby="{{vm.e.name ? 'name-error' : ''}}">
+                        <div id="name-error" class="error-message" ng-if="vm.e.name" role="alert">{{vm.e.name}}</div>
                     </div>
                 </div>
-                <div class="row c3">
-                    <div class="grp"><label for="dob">Date of Birth<span class="req">*</span></label><input id="dob" type="date" class="ctrl" ng-model="vm.f.dob" ng-class="{err:vm.e.dob}">
-                        <div class="err-msg" ng-if="vm.e.dob">{{vm.e.dob}}</div>
+
+                <div class="row cols-3">
+                    <div class="field">
+                        <label for="dob">
+                            Date of Birth<span class="required" aria-label="required">*</span>
+                        </label>
+                        <input id="dob" type="date" ng-model="vm.f.dob" ng-class="{error: vm.e.dob}" aria-required="true" aria-invalid="{{!!vm.e.dob}}" aria-describedby="{{vm.e.dob ? 'dob-error' : ''}}">
+                        <div id="dob-error" class="error-message" ng-if="vm.e.dob" role="alert">{{vm.e.dob}}</div>
                     </div>
-                    <div class="grp"><label for="sex">Legal Sex<span class="req">*</span></label><select id="sex" class="ctrl" ng-model="vm.f.sex" ng-class="{err:vm.e.sex}">
+                    <div class="field">
+                        <label for="sex">
+                            Legal Sex<span class="required" aria-label="required">*</span>
+                        </label>
+                        <select id="sex" ng-model="vm.f.sex" ng-class="{error: vm.e.sex}" aria-required="true" aria-invalid="{{!!vm.e.sex}}" aria-describedby="{{vm.e.sex ? 'sex-error' : ''}}">
                             <option value="">Select...</option>
                             <option>Male</option>
                             <option>Female</option>
                             <option>Unknown</option>
                         </select>
-                        <div class="err-msg" ng-if="vm.e.sex">{{vm.e.sex}}</div>
+                        <div id="sex-error" class="error-message" ng-if="vm.e.sex" role="alert">{{vm.e.sex}}</div>
                     </div>
-                    <div class="grp"><label for="gender">Gender<span class="req">*</span></label><select id="gender" class="ctrl" ng-model="vm.f.gender" ng-class="{err:vm.e.gender}">
+                    <div class="field">
+                        <label for="gender">
+                            Gender<span class="required" aria-label="required">*</span>
+                        </label>
+                        <select id="gender" ng-model="vm.f.gender" ng-class="{error: vm.e.gender}" aria-required="true" aria-invalid="{{!!vm.e.gender}}" aria-describedby="{{vm.e.gender ? 'gender-error' : ''}}">
                             <option value="">Select...</option>
                             <option>Male</option>
                             <option>Female</option>
@@ -443,13 +643,18 @@
                             <option>Additional gender category or other, please specify</option>
                             <option>Choose not to disclose</option>
                         </select>
-                        <div class="err-msg" ng-if="vm.e.gender">{{vm.e.gender}}</div>
+                        <div id="gender-error" class="error-message" ng-if="vm.e.gender" role="alert">{{vm.e.gender}}</div>
                     </div>
                 </div>
-                <div class="collapse" ng-class="{'hide':vm.f.quick}">
-                    <div class="inner">
-                        <div class="row c2">
-                            <div class="grp"><label for="race">Race<span class="req" ng-if="vm.cfg.race">*</span></label><select id="race" class="ctrl" ng-model="vm.f.race" ng-class="{err:vm.e.race}">
+
+                <div class="collapse" ng-class="{hide: vm.f.quick}">
+                    <div>
+                        <div class="row cols-2">
+                            <div class="field">
+                                <label for="race">
+                                    Race<span class="required" ng-if="vm.cfg.race" aria-label="required">*</span>
+                                </label>
+                                <select id="race" ng-model="vm.f.race" ng-class="{error: vm.e.race}" aria-required="{{vm.cfg.race}}" aria-invalid="{{!!vm.e.race}}" aria-describedby="{{vm.e.race ? 'race-error' : ''}}">
                                     <option value="">Select...</option>
                                     <option>Asian</option>
                                     <option>Black or African American</option>
@@ -458,9 +663,13 @@
                                     <option>Unknown</option>
                                     <option>White</option>
                                 </select>
-                                <div class="err-msg" ng-if="vm.e.race">{{vm.e.race}}</div>
+                                <div id="race-error" class="error-message" ng-if="vm.e.race" role="alert">{{vm.e.race}}</div>
                             </div>
-                            <div class="grp"><label for="ethnicity">Ethnicity<span class="req" ng-if="vm.cfg.ethnicity">*</span></label><select id="ethnicity" class="ctrl" ng-model="vm.f.ethnicity" ng-class="{err:vm.e.ethnicity}">
+                            <div class="field">
+                                <label for="ethnicity">
+                                    Ethnicity<span class="required" ng-if="vm.cfg.ethnicity" aria-label="required">*</span>
+                                </label>
+                                <select id="ethnicity" ng-model="vm.f.ethnicity" ng-class="{error: vm.e.ethnicity}" aria-required="{{vm.cfg.ethnicity}}" aria-invalid="{{!!vm.e.ethnicity}}" aria-describedby="{{vm.e.ethnicity ? 'ethnicity-error' : ''}}">
                                     <option value="">Select...</option>
                                     <option>African-American</option>
                                     <option>African-Caribbean</option>
@@ -530,11 +739,16 @@
                                     <option>Unknown</option>
                                     <option>Vietnamese</option>
                                 </select>
-                                <div class="err-msg" ng-if="vm.e.ethnicity">{{vm.e.ethnicity}}</div>
+                                <div id="ethnicity-error" class="error-message" ng-if="vm.e.ethnicity" role="alert">{{vm.e.ethnicity}}</div>
                             </div>
                         </div>
-                        <div class="row c2">
-                            <div class="grp"><label for="marital">Marital Status<span class="req" ng-if="vm.cfg.marital">*</span></label><select id="marital" class="ctrl" ng-model="vm.f.marital" ng-class="{err:vm.e.marital}">
+
+                        <div class="row cols-2">
+                            <div class="field">
+                                <label for="marital">
+                                    Marital Status<span class="required" ng-if="vm.cfg.marital" aria-label="required">*</span>
+                                </label>
+                                <select id="marital" ng-model="vm.f.marital" ng-class="{error: vm.e.marital}" aria-required="{{vm.cfg.marital}}" aria-invalid="{{!!vm.e.marital}}" aria-describedby="{{vm.e.marital ? 'marital-error' : ''}}">
                                     <option value="">Select...</option>
                                     <option>Declined to specify</option>
                                     <option>Divorced</option>
@@ -547,9 +761,13 @@
                                     <option>Unknown</option>
                                     <option>Widowed</option>
                                 </select>
-                                <div class="err-msg" ng-if="vm.e.marital">{{vm.e.marital}}</div>
+                                <div id="marital-error" class="error-message" ng-if="vm.e.marital" role="alert">{{vm.e.marital}}</div>
                             </div>
-                            <div class="grp"><label for="disability">Disability<span class="req" ng-if="vm.cfg.disability">*</span></label><select id="disability" class="ctrl" ng-model="vm.f.disability" ng-class="{err:vm.e.disability}">
+                            <div class="field">
+                                <label for="disability">
+                                    Disability<span class="required" ng-if="vm.cfg.disability" aria-label="required">*</span>
+                                </label>
+                                <select id="disability" ng-model="vm.f.disability" ng-class="{error: vm.e.disability}" aria-required="{{vm.cfg.disability}}" aria-invalid="{{!!vm.e.disability}}" aria-describedby="{{vm.e.disability ? 'disability-error' : ''}}">
                                     <option value="">Select...</option>
                                     <option>None</option>
                                     <option>Blind</option>
@@ -560,38 +778,73 @@
                                     <option>Legally Blind</option>
                                     <option>Unknown</option>
                                 </select>
-                                <div class="err-msg" ng-if="vm.e.disability">{{vm.e.disability}}</div>
+                                <div id="disability-error" class="error-message" ng-if="vm.e.disability" role="alert">{{vm.e.disability}}</div>
                             </div>
                         </div>
+
                         <div class="row">
-                            <div class="grp"><label for="ssn">SSN<span class="req" ng-if="vm.cfg.ssn">*</span></label><input id="ssn" class="ctrl" ng-model="vm.f.ssn" ng-class="{err:vm.e.ssn}" placeholder="XXX-XX-XXXX">
-                                <div class="err-msg" ng-if="vm.e.ssn">{{vm.e.ssn}}</div>
+                            <div class="field">
+                                <label for="ssn">
+                                    SSN<span class="required" ng-if="vm.cfg.ssn" aria-label="required">*</span>
+                                </label>
+                                <input id="ssn" type="text" ng-model="vm.f.ssn" ng-class="{error: vm.e.ssn}" placeholder="XXX-XX-XXXX" aria-required="{{vm.cfg.ssn}}" aria-invalid="{{!!vm.e.ssn}}" aria-describedby="{{vm.e.ssn ? 'ssn-error' : ''}}">
+                                <div id="ssn-error" class="error-message" ng-if="vm.e.ssn" role="alert">{{vm.e.ssn}}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="collapse sec" ng-class="{'hide':vm.f.quick}">
-                <div class="inner">
-                    <div class="sec-head"><span>Contact Information</span><label class="chk"><input type="checkbox" ng-model="vm.f.homeless">Client is homeless</label></div>
-                    <div class="row c2">
-                        <div class="grp"><label for="email">Email<span class="req" ng-if="vm.cfg.email&&!vm.f.homeless">*</span></label><input id="email" type="email" class="ctrl" ng-model="vm.f.email" ng-class="{err:vm.e.email}">
-                            <div class="err-msg" ng-if="vm.e.email">{{vm.e.email}}</div>
+            </section>
+
+            <section class="collapse" ng-class="{hide: vm.f.quick}" aria-labelledby="contact-info">
+                <div>
+                    <header>
+                        <h3 id="contact-info">Contact Information</h3>
+                        <label>
+                            <input type="checkbox" ng-model="vm.f.homeless">
+                            <span>Client is homeless</span>
+                        </label>
+                    </header>
+
+                    <div class="row cols-2">
+                        <div class="field">
+                            <label for="email">
+                                Email<span class="required" ng-if="vm.cfg.email && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="email" type="email" ng-model="vm.f.email" ng-class="{error: vm.e.email}" aria-required="{{vm.cfg.email && !vm.f.homeless}}" aria-invalid="{{!!vm.e.email}}" aria-describedby="{{vm.e.email ? 'email-error' : ''}}">
+                            <div id="email-error" class="error-message" ng-if="vm.e.email" role="alert">{{vm.e.email}}</div>
                         </div>
-                        <div class="grp"><label for="phone">Phone<span class="req" ng-if="vm.cfg.phone&&!vm.f.homeless">*</span></label><input id="phone" class="ctrl" ng-model="vm.f.phone" ng-class="{err:vm.e.phone}" placeholder="(XXX) XXX-XXXX">
-                            <div class="err-msg" ng-if="vm.e.phone">{{vm.e.phone}}</div>
+                        <div class="field">
+                            <label for="phone">
+                                Phone<span class="required" ng-if="vm.cfg.phone && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="phone" type="tel" ng-model="vm.f.phone" ng-class="{error: vm.e.phone}" placeholder="(XXX) XXX-XXXX" aria-required="{{vm.cfg.phone && !vm.f.homeless}}" aria-invalid="{{!!vm.e.phone}}" aria-describedby="{{vm.e.phone ? 'phone-error' : ''}}">
+                            <div id="phone-error" class="error-message" ng-if="vm.e.phone" role="alert">{{vm.e.phone}}</div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="grp"><label for="address">Street Address<span class="req" ng-if="vm.cfg.address">*</span></label><input id="address" class="ctrl" ng-model="vm.f.address" ng-class="{err:vm.e.address}">
-                            <div class="err-msg" ng-if="vm.e.address">{{vm.e.address}}</div>
+                        <div class="field">
+                            <label for="address">
+                                Street Address<span class="required" ng-if="vm.cfg.address" aria-label="required">*</span>
+                            </label>
+                            <input id="address" type="text" ng-model="vm.f.address" ng-class="{error: vm.e.address}" aria-required="{{vm.cfg.address}}" aria-invalid="{{!!vm.e.address}}" aria-describedby="{{vm.e.address ? 'address-error' : ''}}">
+                            <div id="address-error" class="error-message" ng-if="vm.e.address" role="alert">{{vm.e.address}}</div>
                         </div>
                     </div>
-                    <div class="row c3">
-                        <div class="grp"><label for="city">City<span class="req" ng-if="vm.cfg.address">*</span></label><input id="city" class="ctrl" ng-model="vm.f.city" ng-class="{err:vm.e.city}">
-                            <div class="err-msg" ng-if="vm.e.city">{{vm.e.city}}</div>
+
+                    <div class="row cols-3">
+                        <div class="field">
+                            <label for="city">
+                                City<span class="required" ng-if="vm.cfg.address" aria-label="required">*</span>
+                            </label>
+                            <input id="city" type="text" ng-model="vm.f.city" ng-class="{error: vm.e.city}" aria-required="{{vm.cfg.address}}" aria-invalid="{{!!vm.e.city}}" aria-describedby="{{vm.e.city ? 'city-error' : ''}}">
+                            <div id="city-error" class="error-message" ng-if="vm.e.city" role="alert">{{vm.e.city}}</div>
                         </div>
-                        <div class="grp"><label for="state">State<span class="req" ng-if="vm.cfg.address">*</span></label><select id="state" class="ctrl" ng-model="vm.f.state" ng-class="{err:vm.e.state}">
+                        <div class="field">
+                            <label for="state">
+                                State<span class="required" ng-if="vm.cfg.address" aria-label="required">*</span>
+                            </label>
+                            <select id="state" ng-model="vm.f.state" ng-class="{error: vm.e.state}" aria-required="{{vm.cfg.address}}" aria-invalid="{{!!vm.e.state}}" aria-describedby="{{vm.e.state ? 'state-error' : ''}}">
                                 <option value="">Select...</option>
                                 <option>Alabama</option>
                                 <option>Alaska</option>
@@ -644,35 +897,60 @@
                                 <option>Wisconsin</option>
                                 <option>Wyoming</option>
                             </select>
-                            <div class="err-msg" ng-if="vm.e.state">{{vm.e.state}}</div>
+                            <div id="state-error" class="error-message" ng-if="vm.e.state" role="alert">{{vm.e.state}}</div>
                         </div>
-                        <div class="grp"><label for="zip">Zip<span class="req" ng-if="vm.cfg.address">*</span></label><input id="zip" class="ctrl" ng-model="vm.f.zip" ng-class="{err:vm.e.zip}" placeholder="XXXXX" maxlength="5">
-                            <div class="err-msg" ng-if="vm.e.zip">{{vm.e.zip}}</div>
+                        <div class="field">
+                            <label for="zip">
+                                Zip<span class="required" ng-if="vm.cfg.address" aria-label="required">*</span>
+                            </label>
+                            <input id="zip" type="text" ng-model="vm.f.zip" ng-class="{error: vm.e.zip}" placeholder="XXXXX" maxlength="5" aria-required="{{vm.cfg.address}}" aria-invalid="{{!!vm.e.zip}}" aria-describedby="{{vm.e.zip ? 'zip-error' : ''}}">
+                            <div id="zip-error" class="error-message" ng-if="vm.e.zip" role="alert">{{vm.e.zip}}</div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="collapse sec" ng-class="{'hide':vm.f.quick}">
-                <div class="inner">
-                    <div class="sec-head"><span>Emergency Contact</span></div>
-                    <div class="row c2">
-                        <div class="grp"><label for="emFirst">First Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input id="emFirst" class="ctrl" ng-model="vm.f.emFirst" ng-class="{err:vm.e.emFirst}">
-                            <div class="err-msg" ng-if="vm.e.emFirst">{{vm.e.emFirst}}</div>
+            </section>
+
+            <section class="collapse" ng-class="{hide: vm.f.quick}" aria-labelledby="emergency-contact">
+                <div>
+                    <header>
+                        <h3 id="emergency-contact">Emergency Contact</h3>
+                    </header>
+
+                    <div class="row cols-2">
+                        <div class="field">
+                            <label for="emFirst">
+                                First Name<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="emFirst" type="text" ng-model="vm.f.emFirst" ng-class="{error: vm.e.emFirst}" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emFirst}}" aria-describedby="{{vm.e.emFirst ? 'emFirst-error' : ''}}">
+                            <div id="emFirst-error" class="error-message" ng-if="vm.e.emFirst" role="alert">{{vm.e.emFirst}}</div>
                         </div>
-                        <div class="grp"><label for="emLast">Last Name<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input id="emLast" class="ctrl" ng-model="vm.f.emLast" ng-class="{err:vm.e.emLast}">
-                            <div class="err-msg" ng-if="vm.e.emLast">{{vm.e.emLast}}</div>
+                        <div class="field">
+                            <label for="emLast">
+                                Last Name<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="emLast" type="text" ng-model="vm.f.emLast" ng-class="{error: vm.e.emLast}" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emLast}}" aria-describedby="{{vm.e.emLast ? 'emLast-error' : ''}}">
+                            <div id="emLast-error" class="error-message" ng-if="vm.e.emLast" role="alert">{{vm.e.emLast}}</div>
                         </div>
                     </div>
-                    <div class="row c3">
-                        <div class="grp"><label for="emType">Type<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select id="emType" class="ctrl" ng-model="vm.f.emType" ng-class="{err:vm.e.emType}">
+
+                    <div class="row cols-3">
+                        <div class="field">
+                            <label for="emType">
+                                Type<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <select id="emType" ng-model="vm.f.emType" ng-class="{error: vm.e.emType}" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emType}}" aria-describedby="{{vm.e.emType ? 'emType-error' : ''}}">
                                 <option value="">Select...</option>
                                 <option>Family</option>
                                 <option>Medical</option>
                                 <option>Custom</option>
                             </select>
-                            <div class="err-msg" ng-if="vm.e.emType">{{vm.e.emType}}</div>
+                            <div id="emType-error" class="error-message" ng-if="vm.e.emType" role="alert">{{vm.e.emType}}</div>
                         </div>
-                        <div class="grp"><label for="emRel">Relationship<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><select id="emRel" class="ctrl" ng-model="vm.f.emRel" ng-class="{err:vm.e.emRel}">
+                        <div class="field">
+                            <label for="emRel">
+                                Relationship<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <select id="emRel" ng-model="vm.f.emRel" ng-class="{error: vm.e.emRel}" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emRel}}" aria-describedby="{{vm.e.emRel ? 'emRel-error' : ''}}">
                                 <option value="">Select...</option>
                                 <optgroup label="Family">
                                     <option>Biological Parent 1</option>
@@ -686,6 +964,7 @@
                                     <option>Foster Parent 2</option>
                                     <option>Guardian 1</option>
                                     <option>Guardian 2</option>
+                                </optgroup>
                                 <optgroup label="Medical">
                                     <option>Primary Care Physician</option>
                                     <option>Outpatient Psychiatrist</option>
@@ -693,41 +972,63 @@
                                     <option>School Contact</option>
                                     <option>SASS Worker</option>
                                     <option>Pharmacy</option>
+                                </optgroup>
                                 <optgroup label="Custom">
                                     <option>New Custom</option>
+                                </optgroup>
                             </select>
-                            <div class="err-msg" ng-if="vm.e.emRel">{{vm.e.emRel}}</div>
+                            <div id="emRel-error" class="error-message" ng-if="vm.e.emRel" role="alert">{{vm.e.emRel}}</div>
                         </div>
-                        <div class="grp"><label for="emPhone">Phone<span class="req" ng-if="vm.cfg.emergency&&!vm.f.homeless">*</span></label><input id="emPhone" class="ctrl" ng-model="vm.f.emPhone" ng-class="{err:vm.e.emPhone}" placeholder="(XXX) XXX-XXXX">
-                            <div class="err-msg" ng-if="vm.e.emPhone">{{vm.e.emPhone}}</div>
+                        <div class="field">
+                            <label for="emPhone">
+                                Phone<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="emPhone" type="tel" ng-model="vm.f.emPhone" ng-class="{error: vm.e.emPhone}" placeholder="(XXX) XXX-XXXX" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emPhone}}" aria-describedby="{{vm.e.emPhone ? 'emPhone-error' : ''}}">
+                            <div id="emPhone-error" class="error-message" ng-if="vm.e.emPhone" role="alert">{{vm.e.emPhone}}</div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="collapse sec" ng-class="{'hide':vm.f.quick}">
-                <div class="inner">
-                    <div class="sec-head"><span>Financial/Household</span></div>
-                    <div class="row c3">
-                        <div class="grp"><label for="familySize">Family Size<span class="req" ng-if="vm.cfg.family">*</span></label><input id="familySize" type="number" class="ctrl" ng-model="vm.f.familySize" ng-class="{err:vm.e.familySize}" min="1">
-                            <div class="err-msg" ng-if="vm.e.familySize">{{vm.e.familySize}}</div>
+            </section>
+
+            <section class="collapse" ng-class="{hide: vm.f.quick}" aria-labelledby="financial">
+                <div>
+                    <header>
+                        <h3 id="financial">Financial/Household</h3>
+                    </header>
+
+                    <div class="row cols-3">
+                        <div class="field">
+                            <label for="familySize">
+                                Family Size<span class="required" ng-if="vm.cfg.family" aria-label="required">*</span>
+                            </label>
+                            <input id="familySize" type="number" ng-model="vm.f.familySize" ng-class="{error: vm.e.familySize}" min="1" aria-required="{{vm.cfg.family}}" aria-invalid="{{!!vm.e.familySize}}" aria-describedby="{{vm.e.familySize ? 'familySize-error' : ''}}">
+                            <div id="familySize-error" class="error-message" ng-if="vm.e.familySize" role="alert">{{vm.e.familySize}}</div>
                         </div>
-                        <div class="grp"><label for="employment">Employment<span class="req" ng-if="vm.cfg.employment">*</span></label><select id="employment" class="ctrl" ng-model="vm.f.employment" ng-class="{err:vm.e.employment}">
+                        <div class="field">
+                            <label for="employment">
+                                Employment<span class="required" ng-if="vm.cfg.employment" aria-label="required">*</span>
+                            </label>
+                            <select id="employment" ng-model="vm.f.employment" ng-class="{error: vm.e.employment}" aria-required="{{vm.cfg.employment}}" aria-invalid="{{!!vm.e.employment}}" aria-describedby="{{vm.e.employment ? 'employment-error' : ''}}">
                                 <option value="">Select...</option>
-                                <option>Disabled</optiom>
-                                <option>Employed Full-Time</optiom>
-                                <option>Employed Part-Time</optiom>
-                                <option>Homemaker</optiom>
-                                <option>Retired</optiom>
-                                <option>Self-Employed</optiom>
-                                <option>Stay at home parent</optiom>
-                                <option>Student Full-Time</optiom>
-                                <option>Student Part-Time</optiom>
-                                <option>Unemployed</optiom>
-                                <option>Unknown</optiom>
+                                <option>Disabled</option>
+                                <option>Employed Full-Time</option>
+                                <option>Employed Part-Time</option>
+                                <option>Homemaker</option>
+                                <option>Retired</option>
+                                <option>Self-Employed</option>
+                                <option>Stay at home parent</option>
+                                <option>Student Full-Time</option>
+                                <option>Student Part-Time</option>
+                                <option>Unemployed</option>
+                                <option>Unknown</option>
                             </select>
-                            <div class="err-msg" ng-if="vm.e.employment">{{vm.e.employment}}</div>
+                            <div id="employment-error" class="error-message" ng-if="vm.e.employment" role="alert">{{vm.e.employment}}</div>
                         </div>
-                        <div class="grp"><label for="income">Income Range<span class="req" ng-if="vm.cfg.income">*</span></label><select id="income" class="ctrl" ng-model="vm.f.income" ng-class="{err:vm.e.income}">
+                        <div class="field">
+                            <label for="income">
+                                Income Range<span class="required" ng-if="vm.cfg.income" aria-label="required">*</span>
+                            </label>
+                            <select id="income" ng-model="vm.f.income" ng-class="{error: vm.e.income}" aria-required="{{vm.cfg.income}}" aria-invalid="{{!!vm.e.income}}" aria-describedby="{{vm.e.income ? 'income-error' : ''}}">
                                 <option value="">Select...</option>
                                 <option>$0-$24,999</option>
                                 <option>$25,000-$49,999</option>
@@ -736,33 +1037,56 @@
                                 <option>$100,000+</option>
                                 <option>Unknown</option>
                             </select>
-                            <div class="err-msg" ng-if="vm.e.income">{{vm.e.income}}</div>
+                            <div id="income-error" class="error-message" ng-if="vm.e.income" role="alert">{{vm.e.income}}</div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="sec">
-                <div class="sec-head"><span>Chart Details</span></div>
-                <div class="row c2">
-                    <div class="grp"><label for="clinician">Principal Clinician<span class="req">*</span></label><select id="clinician" class="ctrl" ng-model="vm.f.clinician">
+            </section>
+
+            <section aria-labelledby="chart-details">
+                <header>
+                    <h3 id="chart-details">Chart Details</h3>
+                </header>
+
+                <div class="row cols-2">
+                    <div class="field">
+                        <label for="clinician">
+                            Principal Clinician<span class="required" aria-label="required">*</span>
+                        </label>
+                        <select id="clinician" ng-model="vm.f.clinician" aria-required="true">
                             <option>Dr. Sarah Johnson</option>
                             <option>Dr. Michael Smith</option>
                             <option>Dr. Emily Williams</option>
-                        </select></div>
-                    <div class="grp"><label for="chartId">Chart ID<span class="req">*</span></label><input id="chartId" class="ctrl" ng-model="vm.f.chartId" placeholder="Auto-generated"></div>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="chartId">
+                            Chart ID<span class="required" aria-label="required">*</span>
+                        </label>
+                        <input id="chartId" type="text" ng-model="vm.f.chartId" placeholder="Auto-generated" aria-required="true">
+                    </div>
                 </div>
+
                 <div class="row">
-                    <div class="grp"><label for="team">Clinical Team</label><select id="team" class="ctrl" ng-model="vm.f.team">
+                    <div class="field">
+                        <label for="team">Clinical Team</label>
+                        <select id="team" ng-model="vm.f.team">
                             <option value="">Select...</option>
                             <option>Team Alpha</option>
                             <option>Team Beta</option>
                             <option>Team Gamma</option>
-                        </select></div>
+                        </select>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-        <div class="m-foot"><button class="btn btn-sec" ng-click="vm.close()">Cancel</button><button class="btn btn-pri" ng-click="vm.save()">Create Chart</button></div>
+
+        <footer>
+            <button type="button" class="button-secondary" ng-click="vm.close()">Cancel</button>
+            <button type="button" class="button-primary" ng-click="vm.save()">Create Chart</button>
+        </footer>
     </dialog>
+
     <script>
         angular.module('chartApp', []).controller('ChartCtrl', ['$timeout', function ($t) {
             var vm = this;
@@ -777,10 +1101,9 @@
 
             vm.open = function () {
                 vm.reset();
-                var d = document.getElementById('dlg');
+                var d = document.getElementById('js-dialog');
                 d.classList.remove('animate-in');
 
-                // Disable transitions on open
                 var collapses = d.querySelectorAll('.collapse');
                 collapses.forEach(function (el) { el.classList.add('no-transition'); });
 
@@ -788,14 +1111,13 @@
                 requestAnimationFrame(function () {
                     requestAnimationFrame(function () {
                         d.classList.add('animate-in');
-                        // Re-enable transitions after render
                         collapses.forEach(function (el) { el.classList.remove('no-transition'); });
                     })
                 })
             };
 
             vm.close = function () {
-                var d = document.getElementById('dlg');
+                var d = document.getElementById('js-dialog');
                 d.classList.remove('animate-in');
                 d.classList.add('closing');
                 $t(function () { d.close(); d.classList.remove('closing') }, 200)
@@ -836,13 +1158,13 @@
                     alert('Chart created successfully!');
                     vm.close()
                 } else $t(function () {
-                    var el = document.querySelector('.err-msg');
+                    var el = document.querySelector('.error-message');
                     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }, 100)
             };
 
             vm.reset();
-            document.getElementById('dlg').addEventListener('cancel', function (e) {
+            document.getElementById('js-dialog').addEventListener('cancel', function (e) {
                 e.preventDefault();
                 vm.close()
             })
