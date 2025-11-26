@@ -76,6 +76,7 @@
         }
 
         @layer components {
+
             .demo {
                 max-width: 26.25rem;
                 margin-block: 0.625rem 1.25rem;
@@ -488,6 +489,39 @@
                     grid-template-columns: 1fr;
                 }
             }
+
+            input[type="checkbox"] {
+                inline-size: 1rem;
+                block-size: 1rem;
+                cursor: pointer;
+                appearance: none;
+                -webkit-appearance: none;
+                border: 0.125rem solid var(--border);
+                border-radius: var(--radius-sm);
+                background: var(--white);
+                position: relative;
+            }
+
+            input[type="checkbox"]:checked {
+                background: var(--primary);
+                border-color: var(--primary);
+            }
+
+            input[type="checkbox"]:checked::after {
+                content: '✓';
+                position: absolute;
+                color: white;
+                font-size: 0.75rem;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            input[type="checkbox"]:focus-visible {
+                outline: 0.125rem solid var(--primary);
+                outline-offset: 0.125rem;
+            }
         }
 
         @layer utilities {
@@ -502,6 +536,13 @@
                 white-space: nowrap;
                 border-width: 0;
             }
+        }
+
+        .em {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
         }
     </style>
 </head>
@@ -563,11 +604,13 @@
             </fieldset>
             <button ng-click="vm.open()">Create New Chart</button>
         </div>
+        <a href="em.html" class="em">em</a>
     </main>
 
     <dialog id="js-dialog" aria-labelledby="dialog-title">
         <header>
-            <h2 id="dialog-title">Create New Chart</h2>
+            <!-- <h2 id="dialog-title">Create New Chart</h2> -->
+            <h2 id="dialog-title">The density of texture in a written<span style="background-color:hsla(0deg 0% 100% / 20%)"><span title="35th character" style="background-color:deeppink">&emsp14;</span> or typese<span title="45th character" style="background-color:deeppink">&emsp14;</span>t page is called its <span title="66th character" style="background-color:deeppink">&emsp14;</span>color. Th<span title="75th character" style="background-color:deeppink">&emsp14;</span>is ha<span title="80th character" style="background-color:deeppink">&emsp14;</span></span>s nothing to do…</h2>
             <button type="button" ng-click="vm.close()" aria-label="Close dialog">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M18 6L6 18M6 6l12 12" />
@@ -742,55 +785,6 @@
                                 <div id="ethnicity-error" class="error-message" ng-if="vm.e.ethnicity" role="alert">{{vm.e.ethnicity}}</div>
                             </div>
                         </div>
-
-                        <div class="row cols-2">
-                            <div class="field">
-                                <label for="marital">
-                                    Marital Status<span class="required" ng-if="vm.cfg.marital" aria-label="required">*</span>
-                                </label>
-                                <select id="marital" ng-model="vm.f.marital" ng-class="{error: vm.e.marital}" aria-required="{{vm.cfg.marital}}" aria-invalid="{{!!vm.e.marital}}" aria-describedby="{{vm.e.marital ? 'marital-error' : ''}}">
-                                    <option value="">Select...</option>
-                                    <option>Declined to specify</option>
-                                    <option>Divorced</option>
-                                    <option>Domestic Partner</option>
-                                    <option>Engaged</option>
-                                    <option>Married</option>
-                                    <option>Never Married</option>
-                                    <option>Separated</option>
-                                    <option>Single</option>
-                                    <option>Unknown</option>
-                                    <option>Widowed</option>
-                                </select>
-                                <div id="marital-error" class="error-message" ng-if="vm.e.marital" role="alert">{{vm.e.marital}}</div>
-                            </div>
-                            <div class="field">
-                                <label for="disability">
-                                    Disability<span class="required" ng-if="vm.cfg.disability" aria-label="required">*</span>
-                                </label>
-                                <select id="disability" ng-model="vm.f.disability" ng-class="{error: vm.e.disability}" aria-required="{{vm.cfg.disability}}" aria-invalid="{{!!vm.e.disability}}" aria-describedby="{{vm.e.disability ? 'disability-error' : ''}}">
-                                    <option value="">Select...</option>
-                                    <option>None</option>
-                                    <option>Blind</option>
-                                    <option>Deaf</option>
-                                    <option>Developmental Disability</option>
-                                    <option>Hard of Hearing</option>
-                                    <option>Intellectual Disability</option>
-                                    <option>Legally Blind</option>
-                                    <option>Unknown</option>
-                                </select>
-                                <div id="disability-error" class="error-message" ng-if="vm.e.disability" role="alert">{{vm.e.disability}}</div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="field">
-                                <label for="ssn">
-                                    SSN<span class="required" ng-if="vm.cfg.ssn" aria-label="required">*</span>
-                                </label>
-                                <input id="ssn" type="text" ng-model="vm.f.ssn" ng-class="{error: vm.e.ssn}" placeholder="XXX-XX-XXXX" aria-required="{{vm.cfg.ssn}}" aria-invalid="{{!!vm.e.ssn}}" aria-describedby="{{vm.e.ssn ? 'ssn-error' : ''}}">
-                                <div id="ssn-error" class="error-message" ng-if="vm.e.ssn" role="alert">{{vm.e.ssn}}</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -807,18 +801,18 @@
 
                     <div class="row cols-2">
                         <div class="field">
-                            <label for="email">
-                                Email<span class="required" ng-if="vm.cfg.email && !vm.f.homeless" aria-label="required">*</span>
-                            </label>
-                            <input id="email" type="email" ng-model="vm.f.email" ng-class="{error: vm.e.email}" aria-required="{{vm.cfg.email && !vm.f.homeless}}" aria-invalid="{{!!vm.e.email}}" aria-describedby="{{vm.e.email ? 'email-error' : ''}}">
-                            <div id="email-error" class="error-message" ng-if="vm.e.email" role="alert">{{vm.e.email}}</div>
-                        </div>
-                        <div class="field">
                             <label for="phone">
                                 Phone<span class="required" ng-if="vm.cfg.phone && !vm.f.homeless" aria-label="required">*</span>
                             </label>
                             <input id="phone" type="tel" ng-model="vm.f.phone" ng-class="{error: vm.e.phone}" placeholder="(XXX) XXX-XXXX" aria-required="{{vm.cfg.phone && !vm.f.homeless}}" aria-invalid="{{!!vm.e.phone}}" aria-describedby="{{vm.e.phone ? 'phone-error' : ''}}">
                             <div id="phone-error" class="error-message" ng-if="vm.e.phone" role="alert">{{vm.e.phone}}</div>
+                        </div>
+                        <div class="field">
+                            <label for="email">
+                                Email<span class="required" ng-if="vm.cfg.email && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="email" type="email" ng-model="vm.f.email" ng-class="{error: vm.e.email}" aria-required="{{vm.cfg.email && !vm.f.homeless}}" aria-invalid="{{!!vm.e.email}}" aria-describedby="{{vm.e.email ? 'email-error' : ''}}">
+                            <div id="email-error" class="error-message" ng-if="vm.e.email" role="alert">{{vm.e.email}}</div>
                         </div>
                     </div>
 
@@ -935,6 +929,13 @@
 
                     <div class="row cols-3">
                         <div class="field">
+                            <label for="emPhone">
+                                Phone<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
+                            </label>
+                            <input id="emPhone" type="tel" ng-model="vm.f.emPhone" ng-class="{error: vm.e.emPhone}" placeholder="(XXX) XXX-XXXX" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emPhone}}" aria-describedby="{{vm.e.emPhone ? 'emPhone-error' : ''}}">
+                            <div id="emPhone-error" class="error-message" ng-if="vm.e.emPhone" role="alert">{{vm.e.emPhone}}</div>
+                        </div>
+                        <div class="field">
                             <label for="emType">
                                 Type<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
                             </label>
@@ -979,13 +980,6 @@
                             </select>
                             <div id="emRel-error" class="error-message" ng-if="vm.e.emRel" role="alert">{{vm.e.emRel}}</div>
                         </div>
-                        <div class="field">
-                            <label for="emPhone">
-                                Phone<span class="required" ng-if="vm.cfg.emergency && !vm.f.homeless" aria-label="required">*</span>
-                            </label>
-                            <input id="emPhone" type="tel" ng-model="vm.f.emPhone" ng-class="{error: vm.e.emPhone}" placeholder="(XXX) XXX-XXXX" aria-required="{{vm.cfg.emergency && !vm.f.homeless}}" aria-invalid="{{!!vm.e.emPhone}}" aria-describedby="{{vm.e.emPhone ? 'emPhone-error' : ''}}">
-                            <div id="emPhone-error" class="error-message" ng-if="vm.e.emPhone" role="alert">{{vm.e.emPhone}}</div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -997,13 +991,6 @@
                     </header>
 
                     <div class="row cols-3">
-                        <div class="field">
-                            <label for="familySize">
-                                Family Size<span class="required" ng-if="vm.cfg.family" aria-label="required">*</span>
-                            </label>
-                            <input id="familySize" type="number" ng-model="vm.f.familySize" ng-class="{error: vm.e.familySize}" min="1" aria-required="{{vm.cfg.family}}" aria-invalid="{{!!vm.e.familySize}}" aria-describedby="{{vm.e.familySize ? 'familySize-error' : ''}}">
-                            <div id="familySize-error" class="error-message" ng-if="vm.e.familySize" role="alert">{{vm.e.familySize}}</div>
-                        </div>
                         <div class="field">
                             <label for="employment">
                                 Employment<span class="required" ng-if="vm.cfg.employment" aria-label="required">*</span>
@@ -1039,6 +1026,58 @@
                             </select>
                             <div id="income-error" class="error-message" ng-if="vm.e.income" role="alert">{{vm.e.income}}</div>
                         </div>
+                        <div class="field">
+                            <label for="ssn">
+                                SSN<span class="required" ng-if="vm.cfg.ssn" aria-label="required">*</span>
+                            </label>
+                            <input id="ssn" type="text" ng-model="vm.f.ssn" ng-class="{error: vm.e.ssn}" placeholder="XXX-XX-XXXX" aria-required="{{vm.cfg.ssn}}" aria-invalid="{{!!vm.e.ssn}}" aria-describedby="{{vm.e.ssn ? 'ssn-error' : ''}}">
+                            <div id="ssn-error" class="error-message" ng-if="vm.e.ssn" role="alert">{{vm.e.ssn}}</div>
+                        </div>
+                    </div>
+                    <div class="row cols-3">
+                        <div class="field">
+                            <label for="disability">
+                                Disability<span class="required" ng-if="vm.cfg.disability" aria-label="required">*</span>
+                            </label>
+                            <select id="disability" ng-model="vm.f.disability" ng-class="{error: vm.e.disability}" aria-required="{{vm.cfg.disability}}" aria-invalid="{{!!vm.e.disability}}" aria-describedby="{{vm.e.disability ? 'disability-error' : ''}}">
+                                <option value="">Select...</option>
+                                <option>None</option>
+                                <option>Blind</option>
+                                <option>Deaf</option>
+                                <option>Developmental Disability</option>
+                                <option>Hard of Hearing</option>
+                                <option>Intellectual Disability</option>
+                                <option>Legally Blind</option>
+                                <option>Unknown</option>
+                            </select>
+                            <div id="disability-error" class="error-message" ng-if="vm.e.disability" role="alert">{{vm.e.disability}}</div>
+                        </div>
+                        <div class="field">
+                            <label for="marital">
+                                Marital Status<span class="required" ng-if="vm.cfg.marital" aria-label="required">*</span>
+                            </label>
+                            <select id="marital" ng-model="vm.f.marital" ng-class="{error: vm.e.marital}" aria-required="{{vm.cfg.marital}}" aria-invalid="{{!!vm.e.marital}}" aria-describedby="{{vm.e.marital ? 'marital-error' : ''}}">
+                                <option value="">Select...</option>
+                                <option>Declined to specify</option>
+                                <option>Divorced</option>
+                                <option>Domestic Partner</option>
+                                <option>Engaged</option>
+                                <option>Married</option>
+                                <option>Never Married</option>
+                                <option>Separated</option>
+                                <option>Single</option>
+                                <option>Unknown</option>
+                                <option>Widowed</option>
+                            </select>
+                            <div id="marital-error" class="error-message" ng-if="vm.e.marital" role="alert">{{vm.e.marital}}</div>
+                        </div>
+                        <div class="field">
+                            <label for="familySize">
+                                Family Size<span class="required" ng-if="vm.cfg.family" aria-label="required">*</span>
+                            </label>
+                            <input id="familySize" type="number" ng-model="vm.f.familySize" ng-class="{error: vm.e.familySize}" min="1" aria-required="{{vm.cfg.family}}" aria-invalid="{{!!vm.e.familySize}}" aria-describedby="{{vm.e.familySize ? 'familySize-error' : ''}}">
+                            <div id="familySize-error" class="error-message" ng-if="vm.e.familySize" role="alert">{{vm.e.familySize}}</div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1048,7 +1087,7 @@
                     <h3 id="chart-details">Chart Details</h3>
                 </header>
 
-                <div class="row cols-2">
+                <div class="row cols-3">
                     <div class="field">
                         <label for="clinician">
                             Principal Clinician<span class="required" aria-label="required">*</span>
@@ -1065,9 +1104,6 @@
                         </label>
                         <input id="chartId" type="text" ng-model="vm.f.chartId" placeholder="Auto-generated" aria-required="true">
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="field">
                         <label for="team">Clinical Team</label>
                         <select id="team" ng-model="vm.f.team">
